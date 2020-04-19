@@ -2,6 +2,7 @@
 node_modules
 /dist
 storybook-static
+credentials
 
 # local env files
 .env.local
