@@ -1,14 +1,18 @@
 <template>
-  <button class="button is-primary" @click="onClick">
+  <button class="button" @click="onClick">
+    {{ msg }}
     <slot></slot>
   </button>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class MyButton extends Vue {
+  @Prop({ default: "" })
+  msg!: string;
+
   onClick() {
     this.$emit("click");
   }
