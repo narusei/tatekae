@@ -1,8 +1,6 @@
 <template>
   <div>
-    <p>
-      TEventListPage
-    </p>
+    <p>TEventListPage</p>
     <b-field>
       <p class="control">
         <button class="button is-primary" @click="signOut()">Sign Out</button>
@@ -16,9 +14,9 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import firebase from "firebase";
 
 @Component({
-  components: {},
+  components: {}
 })
-export default class NAME extends Vue {
+export default class TEventListPage extends Vue {
   // 1.@Prop
   // 2.property
   // 3.getter
