@@ -11,6 +11,7 @@
     "storybook:start": "vue-cli-service storybook:serve -p 6006 -c config/storybook"
   },
   "dependencies": {
+    "@types/firebase": "^3.2.1",
     "axios": "^0.19.2",
     "buefy": "^0.8.15",
     "core-js": "^3.6.4",
