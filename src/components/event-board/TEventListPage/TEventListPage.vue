@@ -14,8 +14,12 @@
         <button class="button is-primary" @click="onAddEvent()">AddEvent</button>
       </p>
     </b-field>
-    <div v-for="(event, index) in eventList" :key="index">
+    <div>test: {{ eventList }}</div>
+    <div v-for="event in eventList" :key="event.id">
       <div>{{ event.name }}</div>
+      <router-link :to="{ name: 'EventDetail', params: { eventId: event.id } }">
+        <button class="button is-primary">{{ event.name }}へ</button>
+      </router-link>
     </div>
   </div>
 </template>

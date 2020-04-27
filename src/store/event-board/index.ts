@@ -1,12 +1,17 @@
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import * as MUTATION from "@/store/event-board/mutation-types";
 import eventBoardApi from "@/api/evennt-board";
+import { EventItem } from "@/models/EventItem";
+import { BillItem } from "@/models/BillItem";
 
 @Module({ name: "eventBoard", namespaced: true })
 export default class EventBoardStore extends VuexModule {
-  eventList: [] = [];
-  eventDetail: any;
+  eventList: EventItem[] = [];
+  eventDetail: EventItem = {};
+  billList: BillItem[] = [];
+  billDetail: BillItem = {};
   unSubscribeEventList: any;
+  unSubscribeBillList: any;
 
   @Action({ rawError: true })
   startGetEventListListener() {
@@ -18,9 +23,11 @@ export default class EventBoardStore extends VuexModule {
     this.unSubscribeEventList = eventBoardApi
       .getEventListSnapshot()
       .onSnapshot((querySnapsot) => {
-        const eventListData = querySnapsot.docs.map((docSnapshot) =>
-          docSnapshot.data()
-        );
+        const eventListData = querySnapsot.docs.map((docSnapshot) => {
+          const eventData = docSnapshot.data();
+          eventData.id = docSnapshot.id;
+          return eventData;
+        });
         this.context.commit(MUTATION.SET_EVENT_LIST, eventListData);
       });
   }
@@ -38,20 +45,81 @@ export default class EventBoardStore extends VuexModule {
     await eventBoardApi
       .addEvent(name)
       .then((result) => {
-        this.context.commit(MUTATION.ADD_EVENT, result);
+        console.log("Add event success!");
       })
       .catch((error) => {
         alert(error.message);
       });
   }
 
+  @Action({ rawError: true })
+  async getEventDetail(eventId: string) {
+    if (this.eventList.length) {
+      const eventDetailIndex = this.eventList.findIndex(
+        (event) => event.id === eventId
+      );
+      this.context.commit(
+        MUTATION.SET_EVENT_DETAIL,
+        this.eventList[eventDetailIndex]
+      );
+    } else {
+      await eventBoardApi.getEventDetail(eventId).then((result) => {
+        const eventDetailData = result.data();
+        if (eventDetailData) {
+          eventDetailData.id = result.id;
+          this.context.commit(MUTATION.SET_EVENT_DETAIL, eventDetailData);
+        }
+      });
+    }
+  }
+
+  @Action({ rawError: true })
+  startGetBillListListener(eventId: string) {
+    if (this.unSubscribeBillList) {
+      this.unSubscribeBillList();
+      this.unSubscribeBillList = null;
+    }
+
+    this.unSubscribeBillList = eventBoardApi
+      .getBillListSnapshot(eventId)
+      .onSnapshot((querySnapshot) => {
+        const billListData = querySnapshot.docs.map((docSnapshot) => {
+          const billData = docSnapshot.data();
+          billData.id = docSnapshot.id;
+          return billData;
+        });
+        this.context.commit(MUTATION.SET_BILL_LIST, billListData);
+      });
+  }
+
+  @Action({ rawError: true })
+  stopGetBillListListener() {
+    if (this.unSubscribeBillList) {
+      this.unSubscribeBillList();
+      this.unSubscribeBillList = null;
+    }
+  }
+
+  @Action({ rawError: true })
+  async addBill(params: { eventId: string; billItem: BillItem }) {
+    await eventBoardApi
+      .addBill(params.eventId, params.billItem)
+      .then((result) => console.log("Add bill success!"))
+      .catch((error) => alert(error.message));
+  }
+
   @Mutation
-  [MUTATION.SET_EVENT_LIST](payload: []) {
+  [MUTATION.SET_EVENT_LIST](payload: EventItem[]) {
     this.eventList = payload;
   }
 
   @Mutation
-  [MUTATION.ADD_EVENT](payload: any) {
+  [MUTATION.SET_EVENT_DETAIL](payload: EventItem) {
     this.eventDetail = payload;
+  }
+
+  @Mutation
+  [MUTATION.SET_BILL_LIST](payload: BillItem[]) {
+    this.billList = payload;
   }
 }

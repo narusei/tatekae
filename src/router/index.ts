@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import firebase from "firebase";
 import EventListPage from "../pages/event-board/EventListPage.vue";
+import EventDetailPage from "../pages/event-board/EventDetailPage.vue";
 import SignUp from "../pages/auth/SignUp.vue";
 import SignIn from "../pages/auth/SignIn.vue";
 
@@ -17,6 +18,13 @@ const routes = [
     name: "EventList",
     component: EventListPage,
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/event-detail/:eventId",
+    name: "EventDetail",
+    component: EventDetailPage,
+    meta: { requiresAuth: true },
+    props: true,
   },
   {
     path: "/signup",
