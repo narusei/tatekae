@@ -14,6 +14,7 @@ import { getModule } from "vuex-module-decorators";
 import firebase from "firebase";
 import EventBoardStore from "@/store/event-board";
 import TEventListPage from "@/components/event-board/TEventListPage";
+import { EventItem } from "@/models/EventItem";
 
 @Component({
   components: {
@@ -40,14 +41,13 @@ export default class EventListPage extends Vue {
       });
   }
 
-  async onAddEvent(eventName: string) {
+  async onAddEvent(eventItem: EventItem) {
     try {
       this.loading = true;
-      await this.eventBoardStore.addEvent(eventName);
+      await this.eventBoardStore.addEvent(eventItem);
     } catch (error) {
       alert(error.message);
     } finally {
-      // this.$router.push("/event-detail");
       this.loading = false;
     }
   }

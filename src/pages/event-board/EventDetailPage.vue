@@ -2,8 +2,10 @@
   <div>
     <t-event-detail-page
       @addBill="onAddBill($event)"
+      :eventId="eventId"
       :eventDetail="eventDetail"
       :billList="billList"
+      :memberList="memberList"
     ></t-event-detail-page>
   </div>
 </template>
@@ -34,15 +36,19 @@ export default class EventDetailPage extends Vue {
   get billList() {
     return this.eventBoardStore.billList;
   }
+
+  get memberList() {
+    return this.eventBoardStore.memberList;
+  }
   // 4.@Watch
   // 5.method
-  onAddBill(billItem: BillItem) {
+  async onAddBill(billItem: BillItem) {
     try {
       const params = {
         eventId: this.eventId,
         billItem
       };
-      this.eventBoardStore.addBill(params);
+      await this.eventBoardStore.addBill(params);
     } catch {
       alert("faild add bill");
     }
@@ -58,10 +64,14 @@ export default class EventDetailPage extends Vue {
 
   mounted() {
     this.eventBoardStore.startGetBillListListener(this.eventId);
+    if (!this.memberList.length) {
+      this.eventBoardStore.startGetMemberListListener(this.eventId);
+    }
   }
 
   destroyed() {
     this.eventBoardStore.stopGetBillListListener();
+    this.eventBoardStore.stopGetMemberListListener();
   }
 }
 </script>

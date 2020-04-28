@@ -3,6 +3,12 @@
     <p>TEventDetailPage</p>
     <div>test: {{ eventDetail }}</div>
     <div>{{ eventDetail.name }}のページ</div>
+    <div>
+      <router-link :to="{ name: 'MemberList', params: { eventId: this.eventId } }">
+        <button class="button is-primary">MemberList</button>
+      </router-link>
+    </div>
+    <div>test: {{ memberList }}</div>
     <b-field label="BillName">
       <b-input maxlength="20" type="textarea" v-model="name"></b-input>
     </b-field>
@@ -34,17 +40,24 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { EventItem } from "@/models/EventItem";
 import { BillItem } from "@/models/BillItem";
+import { MemberItem } from "@/models/MemberItem";
 
 @Component({
   components: {}
 })
 export default class TEventDetailPage extends Vue {
   // 1.@Prop
+  @Prop({ default: "" })
+  eventId!: string;
+
   @Prop({ default: () => ({}) })
   eventDetail!: EventItem;
 
   @Prop({ default: () => [] })
   billList!: BillItem[];
+
+  @Prop({ default: () => [] })
+  memberList!: MemberItem[];
   // 2.property
   name?: string = "";
   billingPerson?: string = "";

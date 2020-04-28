@@ -1,5 +1,7 @@
 import firebase from "firebase";
+import { EventItem } from "@/models/EventItem";
 import { BillItem } from "@/models/BillItem";
+import { MemberItem } from "@/models/MemberItem";
 
 export default {
   getEventListSnapshot() {
@@ -10,14 +12,14 @@ export default {
       .collection("events");
   },
 
-  addEvent(eventName: string) {
+  addEvent(eventItem: EventItem) {
     return firebase
       .firestore()
       .collection("users")
       .doc(firebase.auth().currentUser?.uid)
       .collection("events")
       .add({
-        name: eventName,
+        name: eventItem.name,
       })
       .catch((error) => {
         alert(error.message);
@@ -57,6 +59,32 @@ export default {
         billingPerson: billItem.billingPerson,
         payer: billItem.payer,
         money: billItem.money,
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  },
+
+  getMemberListSnapshot(eventId: string) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .collection("members");
+  },
+
+  addMember(eventId: string, memberItem: MemberItem) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .collection("members")
+      .add({
+        name: memberItem.name,
       })
       .catch((error) => {
         alert(error.message);

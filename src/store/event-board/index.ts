@@ -3,6 +3,7 @@ import * as MUTATION from "@/store/event-board/mutation-types";
 import eventBoardApi from "@/api/evennt-board";
 import { EventItem } from "@/models/EventItem";
 import { BillItem } from "@/models/BillItem";
+import { MemberItem } from "@/models/MemberItem";
 
 @Module({ name: "eventBoard", namespaced: true })
 export default class EventBoardStore extends VuexModule {
@@ -10,8 +11,10 @@ export default class EventBoardStore extends VuexModule {
   eventDetail: EventItem = {};
   billList: BillItem[] = [];
   billDetail: BillItem = {};
+  memberList: MemberItem[] = [];
   unSubscribeEventList: any;
   unSubscribeBillList: any;
+  unSubscribeMemberList: any;
 
   @Action({ rawError: true })
   startGetEventListListener() {
@@ -41,15 +44,11 @@ export default class EventBoardStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async addEvent(name: string) {
+  async addEvent(eventItem: EventItem) {
     await eventBoardApi
-      .addEvent(name)
-      .then((result) => {
-        console.log("Add event success!");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+      .addEvent(eventItem)
+      .then((result) => console.log("Add event success!"))
+      .catch((error) => alert(error.message));
   }
 
   @Action({ rawError: true })
@@ -108,6 +107,41 @@ export default class EventBoardStore extends VuexModule {
       .catch((error) => alert(error.message));
   }
 
+  @Action({ rawError: true })
+  startGetMemberListListener(eventId: string) {
+    if (this.unSubscribeMemberList) {
+      this.unSubscribeMemberList();
+      this, (this.unSubscribeMemberList = null);
+    }
+
+    this.unSubscribeMemberList = eventBoardApi
+      .getMemberListSnapshot(eventId)
+      .onSnapshot((querySnapshot) => {
+        const memberListData = querySnapshot.docs.map((docSnapshot) => {
+          const memberData = docSnapshot.data();
+          memberData.id = docSnapshot.id;
+          return memberData;
+        });
+        this.context.commit(MUTATION.SET_MEMBER_LIST, memberListData);
+      });
+  }
+
+  @Action({ rawError: true })
+  stopGetMemberListListener() {
+    if (this.unSubscribeMemberList) {
+      this.unSubscribeMemberList();
+      this, (this.unSubscribeMemberList = null);
+    }
+  }
+
+  @Action({ rawError: true })
+  async addMember(params: { eventId: string; memberItem: MemberItem }) {
+    await eventBoardApi
+      .addMember(params.eventId, params.memberItem)
+      .then((result) => console.log("Add member success!"))
+      .catch((error) => alert(error.message));
+  }
+
   @Mutation
   [MUTATION.SET_EVENT_LIST](payload: EventItem[]) {
     this.eventList = payload;
@@ -121,5 +155,10 @@ export default class EventBoardStore extends VuexModule {
   @Mutation
   [MUTATION.SET_BILL_LIST](payload: BillItem[]) {
     this.billList = payload;
+  }
+
+  @Mutation
+  [MUTATION.SET_MEMBER_LIST](payload: MemberItem[]) {
+    this.memberList = payload;
   }
 }

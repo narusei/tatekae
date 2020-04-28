@@ -44,7 +44,9 @@ export default class TEventListPage extends Vue {
   }
 
   onAddEvent() {
-    this.$emit("addEvent", this.eventName);
+    this.$emit("addEvent", {
+      name: this.eventName
+    });
   }
 }
 </script>
