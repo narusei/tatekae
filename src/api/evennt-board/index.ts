@@ -4,12 +4,13 @@ import { BillItem } from "@/models/BillItem";
 import { MemberItem } from "@/models/MemberItem";
 
 export default {
-  getEventListSnapshot() {
+  getEventList() {
     return firebase
       .firestore()
       .collection("users")
       .doc(firebase.auth().currentUser?.uid)
-      .collection("events");
+      .collection("events")
+      .get();
   },
 
   addEvent(eventItem: EventItem) {
@@ -20,9 +21,6 @@ export default {
       .collection("events")
       .add({
         name: eventItem.name,
-      })
-      .catch((error) => {
-        alert(error.message);
       });
   },
 
@@ -36,14 +34,15 @@ export default {
       .get();
   },
 
-  getBillListSnapshot(eventId: string) {
+  getBillList(eventId: string) {
     return firebase
       .firestore()
       .collection("users")
       .doc(firebase.auth().currentUser?.uid)
       .collection("events")
       .doc(eventId)
-      .collection("bills");
+      .collection("bills")
+      .get();
   },
 
   addBill(eventId: string, billItem: BillItem) {
@@ -59,20 +58,18 @@ export default {
         billingPerson: billItem.billingPerson,
         payer: billItem.payer,
         money: billItem.money,
-      })
-      .catch((error) => {
-        alert(error.message);
       });
   },
 
-  getMemberListSnapshot(eventId: string) {
+  getMemberList(eventId: string) {
     return firebase
       .firestore()
       .collection("users")
       .doc(firebase.auth().currentUser?.uid)
       .collection("events")
       .doc(eventId)
-      .collection("members");
+      .collection("members")
+      .get();
   },
 
   addMember(eventId: string, memberItem: MemberItem) {
@@ -85,9 +82,35 @@ export default {
       .collection("members")
       .add({
         name: memberItem.name,
-      })
-      .catch((error) => {
-        alert(error.message);
       });
+  },
+
+  // onSnapshot Listener
+  getEventListReference() {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events");
+  },
+
+  getBillListReference(eventId: string) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .collection("bills");
+  },
+
+  getMemberListReference(eventId: string) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .collection("members");
   },
 };

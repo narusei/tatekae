@@ -6,6 +6,7 @@
       :eventDetail="eventDetail"
       :billList="billList"
       :memberList="memberList"
+      :resultList="resultList"
     ></t-event-detail-page>
   </div>
 </template>
@@ -40,7 +41,15 @@ export default class EventDetailPage extends Vue {
   get memberList() {
     return this.eventBoardStore.memberList;
   }
+
+  get resultList() {
+    return this.eventBoardStore.resultList;
+  }
   // 4.@Watch
+  @Watch("billList")
+  async reCaluculateResult() {
+    await this.eventBoardStore.getResultList();
+  }
   // 5.method
   async onAddBill(billItem: BillItem) {
     try {
@@ -54,24 +63,23 @@ export default class EventDetailPage extends Vue {
     }
   }
 
-  created() {
+  async created() {
     try {
-      this.eventBoardStore.getEventDetail(this.eventId);
+      await this.eventBoardStore.getEventDetail(this.eventId);
+      await this.eventBoardStore.getBillList(this.eventId);
+      await this.eventBoardStore.getMemberList(this.eventId);
+      await this.eventBoardStore.getResultList();
     } catch {
-      alert("faild get event detail");
+      alert("faild created");
     }
   }
 
   mounted() {
     this.eventBoardStore.startGetBillListListener(this.eventId);
-    if (!this.memberList.length) {
-      this.eventBoardStore.startGetMemberListListener(this.eventId);
-    }
   }
 
   destroyed() {
     this.eventBoardStore.stopGetBillListListener();
-    this.eventBoardStore.stopGetMemberListListener();
   }
 }
 </script>

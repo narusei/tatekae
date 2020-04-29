@@ -9,41 +9,25 @@
       </router-link>
     </div>
     <div>test: {{ memberList }}</div>
-    <b-field label="BillName">
-      <b-input maxlength="20" type="textarea" v-model="name"></b-input>
-    </b-field>
-    <b-field label="BillingPerson(請求者)">
-      <b-input maxlength="20" type="textarea" v-model="billingPerson"></b-input>
-    </b-field>
-    <b-field label="Payer(被請求者)">
-      <b-input maxlength="20" type="textarea" v-model="payer"></b-input>
-    </b-field>
-    <b-field label="Money(請求金額)">
-      <b-input maxlength="20" type="textarea" v-model="money"></b-input>
-    </b-field>
-    <b-field>
-      <p class="control">
-        <button class="button is-primary" @click="onAddBill()">AddBill</button>
-      </p>
-    </b-field>
-    <div>test: {{ billList }}</div>
-    <div v-for="bill in billList" :key="bill.id">
-      <div>{{ bill.name }}</div>
-      <div>請求者: {{ bill.billingPerson }}</div>
-      <div>被請求者: {{ bill.payer }}</div>
-      <div>金額: {{ bill.money }}</div>
-    </div>
+    <t-bill-list @addBill="onAddBill($event)" :billList="billList"></t-bill-list>
+    <t-result-list :resultList="resultList"></t-result-list>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import TBillList from "@/components/event-board/TBillList";
+import TResultList from "@/components/event-board/TResultList";
 import { EventItem } from "@/models/EventItem";
 import { BillItem } from "@/models/BillItem";
 import { MemberItem } from "@/models/MemberItem";
+import { ResultItem } from "@/models/ResultItem";
 
 @Component({
-  components: {}
+  components: {
+    TBillList,
+    TResultList
+  }
 })
 export default class TEventDetailPage extends Vue {
   // 1.@Prop
@@ -58,21 +42,15 @@ export default class TEventDetailPage extends Vue {
 
   @Prop({ default: () => [] })
   memberList!: MemberItem[];
+
+  @Prop({ default: () => [] })
+  resultList!: ResultItem[];
   // 2.property
-  name?: string = "";
-  billingPerson?: string = "";
-  payer?: string = "";
-  money?: string = "";
   // 3.getter
   // 4.@Watch
   // 5.method
-  onAddBill() {
-    this.$emit("addBill", {
-      name: this.name,
-      billingPerson: this.billingPerson,
-      payer: this.payer,
-      money: this.money
-    });
+  onAddBill(billItem: BillItem) {
+    this.$emit("addBill", billItem);
   }
 }
 </script>
