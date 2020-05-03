@@ -1,8 +1,10 @@
-import { storiesOf } from "@storybook/vue";
-
 import TEventDetailPage from "./TEventDetailPage.vue";
 
-storiesOf("TEventDetailPage", module).add("Default", () => ({
+export default {
+  title: "event-board/TEventDetailPage",
+};
+
+export const Default = () => ({
   components: { TEventDetailPage },
   template: `<t-event-detail-page></t-event-detail-page>`,
-}));
+});

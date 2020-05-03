@@ -1,8 +1,10 @@
-import { storiesOf } from "@storybook/vue";
-
 import SignInPage from "./SignInPage.vue";
 
-storiesOf("SignInPage", module).add("Default", () => ({
+export default {
+  title: "auth/SignInPage",
+};
+
+export const Default = () => ({
   components: { SignInPage },
-  template: `<sign-in-page></sign-in-page>`,
-}));
+  template: "<sign-in-page></sign-in-page>",
+});
