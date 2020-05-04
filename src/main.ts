@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Buefy from "buefy";
-import "../../src/styles/custamize.scss";
+import "../src/styles/custamize.scss";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
