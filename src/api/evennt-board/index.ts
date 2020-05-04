@@ -24,6 +24,16 @@ export default {
       });
   },
 
+  deleteEvent(eventId: string) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .delete();
+  },
+
   getEventDetail(eventId: string) {
     return firebase
       .firestore()
@@ -61,6 +71,30 @@ export default {
       });
   },
 
+  deleteBill(eventId: string, billId: string) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .collection("bills")
+      .doc(billId)
+      .delete();
+  },
+
+  getBillDetail(eventId: string, billId: string) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .collection("bills")
+      .doc(billId)
+      .get();
+  },
+
   getMemberList(eventId: string) {
     return firebase
       .firestore()
@@ -83,6 +117,18 @@ export default {
       .add({
         name: memberItem.name,
       });
+  },
+
+  deleteMember(eventId: string, memberId: string) {
+    return firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser?.uid)
+      .collection("events")
+      .doc(eventId)
+      .collection("members")
+      .doc(memberId)
+      .delete();
   },
 
   // onSnapshot Listener

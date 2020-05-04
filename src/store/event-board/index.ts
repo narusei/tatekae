@@ -37,6 +37,11 @@ export default class EventBoardStore extends VuexModule {
   }
 
   @Action({ rawError: true })
+  async deleteEvent(eventId: string) {
+    await eventBoardApi.deleteEvent(eventId);
+  }
+
+  @Action({ rawError: true })
   async getEventDetail(eventId: string) {
     if (this.eventList.length) {
       const eventDetailIndex = this.eventList.findIndex(
@@ -73,6 +78,31 @@ export default class EventBoardStore extends VuexModule {
   }
 
   @Action({ rawError: true })
+  async deleteBill(params: { eventId: string; billId: string }) {
+    await eventBoardApi.deleteBill(params.eventId, params.billId);
+  }
+
+  @Action({ rawError: true })
+  async getBillDetail(params: { eventId: string; billId: string }) {
+    if (this.billList.length) {
+      const billDetailIndex = this.billList.findIndex(
+        (bill) => bill.id === params.billId
+      );
+      this.context.commit(
+        MUTATION.SET_BILL_DETAIL,
+        this.billList[billDetailIndex]
+      );
+    } else {
+      const result = await eventBoardApi.getBillDetail(
+        params.eventId,
+        params.billId
+      );
+      const billData = result.data();
+      this.context.commit(MUTATION.SET_BILL_DETAIL, billData);
+    }
+  }
+
+  @Action({ rawError: true })
   async getMemberList(eventId: string) {
     const snapshot = await eventBoardApi.getMemberList(eventId);
     const memberListData = snapshot.docs.map((doc) => {
@@ -86,6 +116,11 @@ export default class EventBoardStore extends VuexModule {
   @Action({ rawError: true })
   async addMember(params: { eventId: string; memberItem: MemberItem }) {
     await eventBoardApi.addMember(params.eventId, params.memberItem);
+  }
+
+  @Action({ rawError: true })
+  async deleteMember(params: { eventId: string; memberId: string }) {
+    await eventBoardApi.deleteMember(params.eventId, params.memberId);
   }
 
   @Action({ rawError: true })
@@ -195,6 +230,11 @@ export default class EventBoardStore extends VuexModule {
   @Mutation
   [MUTATION.SET_BILL_LIST](payload: BillItem[]) {
     this.billList = payload;
+  }
+
+  @Mutation
+  [MUTATION.SET_BILL_DETAIL](payload: BillItem) {
+    this.billDetail = payload;
   }
 
   @Mutation
