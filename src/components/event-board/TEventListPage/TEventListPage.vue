@@ -1,46 +1,65 @@
 <template>
-  <div>
-    <p>TEventListPage</p>
-    <b-field>
-      <p class="control">
-        <button class="button is-primary" @click="signOut()">Sign Out</button>
-      </p>
-    </b-field>
-    <b-field label="event_title">
-      <b-input maxlength="20" type="textarea" v-model="eventName"></b-input>
-    </b-field>
-    <b-field>
-      <p class="control">
-        <button class="button is-primary" @click="onAddEvent()">
-          AddEvent
-        </button>
-      </p>
-    </b-field>
-    <div>test: {{ eventList }}</div>
-    <div v-for="event in eventList" :key="event.id">
-      <div>{{ event.name }}</div>
-      <router-link :to="{ name: 'EventDetail', params: { eventId: event.id } }">
-        <button class="button is-primary">{{ event.name }}へ</button>
-      </router-link>
-      <button class="button is-danger" @click="onDeleteEvent(event.id)">
-        イベントを削除
-      </button>
-    </div>
-  </div>
+  <app-base>
+    <b-navbar>
+      <template slot="brand">
+        <b-navbar-item>Tatekae</b-navbar-item>
+      </template>
+      <template slot="end">
+        <b-navbar-item tag="div">
+          <button class="button is-primary" @click="signOut()">
+            Sign Out
+          </button>
+        </b-navbar-item>
+      </template>
+    </b-navbar>
+    <main-content>
+      <div class="event-list-header">
+        イベント一覧
+      </div>
+      <div v-for="event in eventList" :key="event.id">
+        <div class="event-list-item">
+          <div class="event-list-item-menu">
+            <b-icon
+              icon="delete"
+              @click.native="onDeleteEvent(event.id)"
+            ></b-icon>
+          </div>
+          <router-link
+            :to="{ name: 'EventDetail', params: { eventId: event.id } }"
+          >
+            <div class="event-list-item-title">
+              {{ event.name }}
+            </div>
+          </router-link>
+        </div>
+      </div>
+    </main-content>
+    <floating-button
+      :iconType="'plus'"
+      @click="onOpenAddEventDialog()"
+    ></floating-button>
+  </app-base>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { EventItem } from "@/models/EventItem";
+import AppBase from "@/components/common/AppBase";
+import MainContent from "@/components/common/MainContent";
+import FloatingButton from "@/components/common/FloatingButton";
 
 @Component({
-  components: {},
+  components: {
+    AppBase,
+    MainContent,
+    FloatingButton,
+  },
 })
 export default class TEventListPage extends Vue {
   // 1.@Prop
   @Prop({ default: () => [] })
-  eventList!: [];
+  eventList!: EventItem[];
   // 2.property
-  eventName?: string = "";
   // 3.getter
   // 4.@Watch
   // 5.method
@@ -48,9 +67,23 @@ export default class TEventListPage extends Vue {
     this.$emit("signOut");
   }
 
-  onAddEvent() {
+  onOpenAddEventDialog() {
+    this.$buefy.dialog.prompt({
+      message: "イベント名を入力してください",
+      inputAttrs: {
+        placeholder: "イベント名",
+        maxlength: 15,
+      },
+      trapFocus: true,
+      onConfirm: (value) => {
+        this.onAddEvent(value);
+      },
+    });
+  }
+
+  onAddEvent(value: string) {
     this.$emit("addEvent", {
-      name: this.eventName,
+      name: value,
     });
   }
 
@@ -68,4 +101,26 @@ export default class TEventListPage extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+
+<style lang="scss" scoped>
+.event-list-header {
+  padding-left: 8px;
+}
+
+.event-list-item {
+  margin: 8px 16px;
+  border: solid 1px;
+}
+
+.event-list-item-menu {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 8px 0 0;
+}
+
+.event-list-item-title {
+  margin-top: 16px;
+  color: #000000;
+  padding: 0 0 8px 8px;
+}
+</style>
