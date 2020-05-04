@@ -2,6 +2,7 @@
   <div>
     <t-member-list-page
       @addMember="onAddMember($event)"
+      @deleteMember="onDeleteMember($event)"
       :eventId="eventId"
       :memberList="memberList"
     ></t-member-list-page>
@@ -17,8 +18,8 @@ import { MemberItem } from "@/models/MemberItem";
 
 @Component({
   components: {
-    TMemberListPage
-  }
+    TMemberListPage,
+  },
 })
 export default class MemberListPage extends Vue {
   private eventBoardStore = getModule(EventBoardStore, this.$store);
@@ -36,11 +37,24 @@ export default class MemberListPage extends Vue {
     try {
       const params = {
         eventId: this.eventId,
-        memberItem
+        memberItem,
       };
       await this.eventBoardStore.addMember(params);
     } catch {
       alert("failed add member");
+    }
+  }
+
+  async onDeleteMember(memberId: string) {
+    try {
+      await this.eventBoardStore.deleteMember({
+        eventId: this.eventId,
+        memberId: memberId,
+      });
+    } catch {
+      alert("failed delete member");
+    } finally {
+      this.$buefy.toast.open("削除しました");
     }
   }
 
@@ -54,5 +68,4 @@ export default class MemberListPage extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

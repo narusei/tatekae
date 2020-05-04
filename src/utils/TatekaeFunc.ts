@@ -76,7 +76,7 @@ export default {
           const resultData: ResultItem = {
             from: fromMember,
             to: toMember,
-            payment: resultPayment,
+            payment: resultPayment < 0 ? -resultPayment : resultPayment,
           };
           resultListData.push(resultData);
         }

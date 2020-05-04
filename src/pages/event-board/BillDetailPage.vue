@@ -1,6 +1,7 @@
 <template>
   <div>
     <t-bill-detail-page
+      @deleteBill="onDeleteBill($event)"
       :eventId="eventId"
       :billDetail="billDetail"
     ></t-bill-detail-page>
@@ -33,6 +34,23 @@ export default class BillDetailPage extends Vue {
   }
   // 4.@Watch
   // 5.method
+  async onDeleteBill() {
+    try {
+      await this.eventBoardStore.deleteBill({
+        eventId: this.eventId,
+        billId: this.billId,
+      });
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      this.$buefy.toast.open("請求書を削除しました");
+      this.$router.push({
+        name: "EventDetail",
+        params: { eventId: this.eventId },
+      });
+    }
+  }
+
   async created() {
     try {
       await this.eventBoardStore.getBillDetail({

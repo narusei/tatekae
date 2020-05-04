@@ -11,6 +11,7 @@
     <div>{{ billDetail.billingPerson }}</div>
     <div>{{ billDetail.payer }}</div>
     <div>{{ billDetail.money }}</div>
+    <button class="button is-danger" @click="onDeleteBill()">削除</button>
   </div>
 </template>
 
@@ -32,6 +33,18 @@ export default class TBillDetailPage extends Vue {
   // 3.getter
   // 4.@Watch
   // 5.method
+  onDeleteBill() {
+    this.$buefy.dialog.confirm({
+      title: "請求書を削除",
+      message: "一度請求書を削除したら元には戻せません。削除しますか？",
+      confirmText: "削除",
+      type: "is-danger",
+      hasIcon: true,
+      onConfirm: () => {
+        this.$emit("deleteBill");
+      },
+    });
+  }
 }
 </script>
 <style lang="scss" scoped></style>

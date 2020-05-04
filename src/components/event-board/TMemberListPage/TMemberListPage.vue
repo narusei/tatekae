@@ -19,6 +19,9 @@
     <div>test: {{ memberList }}</div>
     <div v-for="member in memberList" :key="member.id">
       <div>{{ member.name }}</div>
+      <button class="button is-danger" @click="onDeleteMember(member.id)">
+        削除
+      </button>
     </div>
   </div>
 </template>
@@ -45,6 +48,20 @@ export default class TMemberListPage extends Vue {
   onAddMember() {
     this.$emit("addMember", {
       name: this.memberName,
+    });
+  }
+
+  onDeleteMember(memberId: string) {
+    this.$buefy.dialog.confirm({
+      title: "メンバーを削除",
+      message:
+        "一度メンバーを削除したら元には戻せません。このメンバーが請求した請求書も削除されます。削除しますか？",
+      confirmText: "削除",
+      type: "is-danger",
+      hasIcon: true,
+      onConfirm: () => {
+        this.$emit("deleteMember", memberId);
+      },
     });
   }
 }

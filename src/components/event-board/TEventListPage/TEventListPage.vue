@@ -11,7 +11,9 @@
     </b-field>
     <b-field>
       <p class="control">
-        <button class="button is-primary" @click="onAddEvent()">AddEvent</button>
+        <button class="button is-primary" @click="onAddEvent()">
+          AddEvent
+        </button>
       </p>
     </b-field>
     <div>test: {{ eventList }}</div>
@@ -20,6 +22,9 @@
       <router-link :to="{ name: 'EventDetail', params: { eventId: event.id } }">
         <button class="button is-primary">{{ event.name }}へ</button>
       </router-link>
+      <button class="button is-danger" @click="onDeleteEvent(event.id)">
+        イベントを削除
+      </button>
     </div>
   </div>
 </template>
@@ -28,7 +33,7 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class TEventListPage extends Vue {
   // 1.@Prop
@@ -45,7 +50,20 @@ export default class TEventListPage extends Vue {
 
   onAddEvent() {
     this.$emit("addEvent", {
-      name: this.eventName
+      name: this.eventName,
+    });
+  }
+
+  onDeleteEvent(eventId: string) {
+    this.$buefy.dialog.confirm({
+      title: "イベントを削除",
+      message: "一度イベントを削除したら元には戻せません。削除しますか？",
+      confirmText: "削除",
+      type: "is-danger",
+      hasIcon: true,
+      onConfirm: () => {
+        this.$emit("deleteEvent", eventId);
+      },
     });
   }
 }
