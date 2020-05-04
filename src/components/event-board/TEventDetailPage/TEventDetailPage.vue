@@ -1,15 +1,24 @@
 <template>
   <div>
     <p>TEventDetailPage</p>
+    <div>
+      <router-link :to="{ name: 'EventList' }">
+        <button class="button is-primary">BackEventList</button>
+      </router-link>
+    </div>
     <div>test: {{ eventDetail }}</div>
     <div>{{ eventDetail.name }}のページ</div>
     <div>
-      <router-link :to="{ name: 'MemberList', params: { eventId: this.eventId } }">
+      <router-link :to="{ name: 'MemberList', params: { eventId: eventId } }">
         <button class="button is-primary">MemberList</button>
       </router-link>
     </div>
     <div>test: {{ memberList }}</div>
-    <t-bill-list @addBill="onAddBill($event)" :billList="billList"></t-bill-list>
+    <t-bill-list
+      @addBill="onAddBill($event)"
+      :eventId="eventId"
+      :billList="billList"
+    ></t-bill-list>
     <t-result-list :resultList="resultList"></t-result-list>
   </div>
 </template>
@@ -26,8 +35,8 @@ import { ResultItem } from "@/models/ResultItem";
 @Component({
   components: {
     TBillList,
-    TResultList
-  }
+    TResultList,
+  },
 })
 export default class TEventDetailPage extends Vue {
   // 1.@Prop
@@ -55,5 +64,4 @@ export default class TEventDetailPage extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

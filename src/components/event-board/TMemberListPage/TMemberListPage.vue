@@ -2,7 +2,7 @@
   <div>
     <p>TMemberListPage</p>
     <div>
-      <router-link :to="{ name: 'EventDetail', params: { eventId: this.eventId } }">
+      <router-link :to="{ name: 'EventDetail', params: { eventId: eventId } }">
         <button class="button is-primary">BackDetailPage</button>
       </router-link>
     </div>
@@ -11,7 +11,9 @@
     </b-field>
     <b-field>
       <p class="control">
-        <button class="button is-primary" @click="onAddMember()">AddMember</button>
+        <button class="button is-primary" @click="onAddMember()">
+          AddMember
+        </button>
       </p>
     </b-field>
     <div>test: {{ memberList }}</div>
@@ -26,7 +28,7 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { MemberItem } from "@/models/MemberItem";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class TMemberListPage extends Vue {
   // 1.@Prop
@@ -42,11 +44,10 @@ export default class TMemberListPage extends Vue {
   // 5.method
   onAddMember() {
     this.$emit("addMember", {
-      name: this.memberName
+      name: this.memberName,
     });
   }
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

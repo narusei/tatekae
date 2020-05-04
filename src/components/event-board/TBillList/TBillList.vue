@@ -24,6 +24,16 @@
       <div>請求者: {{ bill.billingPerson }}</div>
       <div>被請求者: {{ bill.payer }}</div>
       <div>金額: {{ bill.money }}</div>
+      <div>
+        <router-link
+          :to="{
+            name: 'BillDetail',
+            params: { eventId: eventId, billId: bill.id },
+          }"
+        >
+          <button class="button is-primary">BillDetail</button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -33,10 +43,13 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { BillItem } from "@/models/BillItem";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class TBillList extends Vue {
   // 1.@Prop
+  @Prop({ default: "" })
+  eventId!: string;
+
   @Prop({ default: () => [] })
   billList!: BillItem[];
   // 2.property
@@ -52,10 +65,9 @@ export default class TBillList extends Vue {
       name: this.name,
       billingPerson: this.billingPerson,
       payer: this.payer,
-      money: this.money
+      money: this.money,
     });
   }
 }
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
