@@ -1,11 +1,9 @@
 <template>
   <div>
     <t-event-detail-page
-      @addBill="onAddBill($event)"
       :eventId="eventId"
       :eventDetail="eventDetail"
       :billList="billList"
-      :memberList="memberList"
       :resultList="resultList"
     ></t-event-detail-page>
   </div>
@@ -16,12 +14,11 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import EventBoardStore from "@/store/event-board";
 import TEventDetailPage from "@/components/event-board/TEventDetailPage";
-import { BillItem } from "@/models/BillItem";
 
 @Component({
   components: {
-    TEventDetailPage
-  }
+    TEventDetailPage,
+  },
 })
 export default class EventDetailPage extends Vue {
   private eventBoardStore = getModule(EventBoardStore, this.$store);
@@ -38,10 +35,6 @@ export default class EventDetailPage extends Vue {
     return this.eventBoardStore.billList;
   }
 
-  get memberList() {
-    return this.eventBoardStore.memberList;
-  }
-
   get resultList() {
     return this.eventBoardStore.resultList;
   }
@@ -51,18 +44,6 @@ export default class EventDetailPage extends Vue {
     await this.eventBoardStore.getResultList();
   }
   // 5.method
-  async onAddBill(billItem: BillItem) {
-    try {
-      const params = {
-        eventId: this.eventId,
-        billItem
-      };
-      await this.eventBoardStore.addBill(params);
-    } catch {
-      alert("faild add bill");
-    }
-  }
-
   async created() {
     try {
       await this.eventBoardStore.getEventDetail(this.eventId);
@@ -84,5 +65,4 @@ export default class EventDetailPage extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

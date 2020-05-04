@@ -13,12 +13,7 @@
         <button class="button is-primary">MemberList</button>
       </router-link>
     </div>
-    <div>test: {{ memberList }}</div>
-    <t-bill-list
-      @addBill="onAddBill($event)"
-      :eventId="eventId"
-      :billList="billList"
-    ></t-bill-list>
+    <t-bill-list :eventId="eventId" :billList="billList"></t-bill-list>
     <t-result-list :resultList="resultList"></t-result-list>
   </div>
 </template>
@@ -50,17 +45,11 @@ export default class TEventDetailPage extends Vue {
   billList!: BillItem[];
 
   @Prop({ default: () => [] })
-  memberList!: MemberItem[];
-
-  @Prop({ default: () => [] })
   resultList!: ResultItem[];
   // 2.property
   // 3.getter
   // 4.@Watch
   // 5.method
-  onAddBill(billItem: BillItem) {
-    this.$emit("addBill", billItem);
-  }
 }
 </script>
 
