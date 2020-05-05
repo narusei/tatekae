@@ -1,7 +1,6 @@
 <template>
   <div>
     <t-event-list-page
-      @signOut="signOut($event)"
       @addEvent="onAddEvent($event)"
       @deleteEvent="onDeleteEvent($event)"
       :eventList="eventList"
@@ -33,15 +32,6 @@ export default class EventListPage extends Vue {
   }
   // 4.@Watch
   // 5.method
-  signOut() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.$router.push("/signin");
-      });
-  }
-
   async onAddEvent(eventItem: EventItem) {
     try {
       this.loading = true;

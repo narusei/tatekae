@@ -4,13 +4,13 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import firebase from "firebase";
+import authApi from "@/api/auth";
 import SignInPage from "@/components/auth/SignInPage";
 
 @Component({
   components: {
-    SignInPage
-  }
+    SignInPage,
+  },
 })
 export default class SignIn extends Vue {
   // 1.@Prop
@@ -18,18 +18,14 @@ export default class SignIn extends Vue {
   // 3.getter
   // 4.@Watch
   // 5.method
-  signIn(form: { email: string; password: string }) {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(form.email, form.password)
-      .then(result => {
-        this.$router.push("/");
-      })
-      .catch(error => {
-        alert(error.message);
-      });
+  async signIn(form: { email: string; password: string }) {
+    try {
+      await authApi.signInWithEmailAndPassword(form.email, form.password);
+      this.$router.push("/");
+    } catch (error) {
+      alert(error.message);
+    }
   }
 }
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

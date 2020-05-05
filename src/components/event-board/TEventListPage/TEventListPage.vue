@@ -43,6 +43,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import authApi from "@/api/auth";
 import { EventItem } from "@/models/EventItem";
 import AppBase from "@/components/common/AppBase";
 import MainContent from "@/components/common/MainContent";
@@ -63,8 +64,13 @@ export default class TEventListPage extends Vue {
   // 3.getter
   // 4.@Watch
   // 5.method
-  signOut() {
-    this.$emit("signOut");
+  async signOut() {
+    try {
+      await authApi.signOut();
+      this.$router.push("/signin");
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   onOpenAddEventDialog() {

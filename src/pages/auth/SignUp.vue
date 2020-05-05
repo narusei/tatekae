@@ -4,13 +4,13 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-import firebase from "firebase";
+import authApi from "@/api/auth";
 import SignUpPage from "@/components/auth/SignUpPage";
 
 @Component({
   components: {
-    SignUpPage
-  }
+    SignUpPage,
+  },
 })
 export default class SignUp extends Vue {
   // 1.@Prop
@@ -19,31 +19,23 @@ export default class SignUp extends Vue {
   // 4.@Watch
   // 5.method
   async signUp(form: { email: string; password: string; name: string }) {
-    await firebase
-      .auth()
-      .createUserWithEmailAndPassword(form.email, form.password)
-      .then(result => {
-        if (result.user) {
-          firebase
-            .firestore()
-            .collection("users")
-            .doc(result.user.uid)
-            .set({
-              name: form.name
-            })
-            .then(result => {
-              this.$router.push("/");
-            })
-            .catch(error => {
-              alert(error.message);
-            });
+    try {
+      const result = await authApi.signInWithEmailAndPassword(
+        form.email,
+        form.password
+      );
+      if (result.user) {
+        try {
+          await authApi.createUser(result.user.uid, form.name);
+          this.$router.push("/");
+        } catch (error) {
+          alert(error.message);
         }
-      })
-      .catch(error => {
-        alert(error.message);
-      });
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   }
 }
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
