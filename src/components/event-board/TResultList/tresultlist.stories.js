@@ -6,5 +6,44 @@ export default {
 
 export const Default = () => ({
   components: { TResultList },
-  template: `<t-result-list></t-result-list>`,
+  props: {
+    resultList: {
+      default: [
+        {
+          from: {
+            id: "1",
+            name: "ziro",
+          },
+          to: {
+            id: "0",
+            name: "taro",
+          },
+          payment: 42,
+        },
+        {
+          from: {
+            id: "2",
+            name: "saburo",
+          },
+          to: {
+            id: "0",
+            name: "taro",
+          },
+          payment: 1925,
+        },
+        {
+          from: {
+            id: "2",
+            name: "saburo",
+          },
+          to: {
+            id: "1",
+            name: "ziro",
+          },
+          payment: 5233,
+        },
+      ],
+    },
+  },
+  template: `<t-result-list :resultList="resultList"></t-result-list>`,
 });
