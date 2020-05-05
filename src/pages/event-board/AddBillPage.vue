@@ -1,10 +1,6 @@
 <template>
   <div>
-    <t-add-bill-page
-      @addBill="onAddBill($event)"
-      :eventId="eventId"
-      :memberList="memberList"
-    ></t-add-bill-page>
+    <t-add-bill-page @addBill="onAddBill($event)" :eventId="eventId" :memberList="memberList"></t-add-bill-page>
   </div>
 </template>
 
@@ -17,8 +13,8 @@ import { BillItem } from "@/models/BillItem";
 
 @Component({
   components: {
-    TAddBillPage,
-  },
+    TAddBillPage
+  }
 })
 export default class AddBillPage extends Vue {
   private eventBoardStore = getModule(EventBoardStore, this.$store);
@@ -36,9 +32,13 @@ export default class AddBillPage extends Vue {
     try {
       const params = {
         eventId: this.eventId,
-        billItem,
+        billItem
       };
       await this.eventBoardStore.addBill(params);
+      this.$router.push({
+        name: "EventDetail",
+        params: { eventId: this.eventId }
+      });
     } catch {
       alert("faild add bill");
     }
