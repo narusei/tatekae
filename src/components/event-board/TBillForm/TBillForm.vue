@@ -1,13 +1,11 @@
 <template>
   <main-content>
-    <div style="padding: 0 16px 16px;">
+    <div class="bill-form-name">
       <b-field label="請求書名">
         <b-input type="text" v-model="name"></b-input>
       </b-field>
     </div>
-    <div
-      style="display: flex; justify-content: space-between; padding: 0 16px 16px;"
-    >
+    <div class="bill-form-member">
       <b-field label="請求者">
         <b-select placeholder="請求者を選択" required v-model="billingPerson">
           <option
@@ -18,7 +16,9 @@
           >
         </b-select>
       </b-field>
-      <div style="display: flex; align-items: center;">→</div>
+      <div class="bill-form-member-arrow">
+        →
+      </div>
       <b-field label="被請求者">
         <b-select placeholder="被請求者を選択" required v-model="payer">
           <option
@@ -30,12 +30,12 @@
         </b-select>
       </b-field>
     </div>
-    <div style="padding: 0 16px 16px;">
+    <div class="bill-form-money">
       <b-field label="請求金額(円)">
         <b-input type="number" min="0" v-model="money"></b-input>
       </b-field>
     </div>
-    <div style="display: flex; justify-content: center; align-items: center;">
+    <div class="bill-form-add-button">
       <b-field>
         <p class="control">
           <button class="button is-primary" @click="onEmitBillData()">
@@ -91,4 +91,29 @@ export default class TBillForm extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bill-form-name {
+  padding: 0 16px 16px;
+}
+
+.bill-form-member {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px 16px;
+}
+
+.bill-form-member-arrow {
+  display: flex;
+  align-items: center;
+}
+
+.bill-form-money {
+  padding: 0 16px 16px;
+}
+
+.bill-form-add-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
