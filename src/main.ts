@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Buefy from "buefy";
-import "buefy/dist/buefy.css";
+import "../src/styles/custamize.scss";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
@@ -20,7 +20,7 @@ const config = {
   storageBucket: credentials.STORAGE_BUCKET,
   messagingSenderId: credentials.MESSAGING_SENDER_ID,
   appId: credentials.APP_ID,
-  measurementId: credentials.MEASUREMENT_ID
+  measurementId: credentials.MEASUREMENT_ID,
 };
 
 firebase.initializeApp(config);
@@ -29,5 +29,5 @@ firebase.analytics();
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
