@@ -4,6 +4,7 @@
       @addEvent="onAddEvent($event)"
       @deleteEvent="onDeleteEvent($event)"
       :eventList="eventList"
+      :isLoading="loading"
     ></t-event-list-page>
   </div>
 </template>
@@ -18,8 +19,8 @@ import { EventItem } from "@/models/EventItem";
 
 @Component({
   components: {
-    TEventListPage,
-  },
+    TEventListPage
+  }
 })
 export default class EventListPage extends Vue {
   private eventBoardStore = getModule(EventBoardStore, this.$store);
@@ -40,6 +41,7 @@ export default class EventListPage extends Vue {
       alert(error.message);
     } finally {
       this.loading = false;
+      this.$buefy.toast.open("イベントを追加しました");
     }
   }
 
@@ -55,16 +57,13 @@ export default class EventListPage extends Vue {
     }
   }
 
-  async created() {
+  async mounted() {
     try {
       this.loading = true;
+      await this.eventBoardStore.startGetEventListListener();
     } finally {
       this.loading = false;
     }
-  }
-
-  mounted() {
-    this.eventBoardStore.startGetEventListListener();
   }
 
   destroyed() {

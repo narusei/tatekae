@@ -38,6 +38,14 @@
       :iconType="'plus'"
       @click="onOpenAddEventDialog()"
     ></floating-button>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    >
+      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin">
+      </b-icon>
+    </b-loading>
   </app-base>
 </template>
 
@@ -60,6 +68,9 @@ export default class TEventListPage extends Vue {
   // 1.@Prop
   @Prop({ default: () => [] })
   eventList!: EventItem[];
+
+  @Prop({ default: false })
+  isLoading!: boolean;
   // 2.property
   // 3.getter
   // 4.@Watch

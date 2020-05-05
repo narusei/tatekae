@@ -6,9 +6,7 @@
       </template>
       <template slot="end">
         <b-navbar-item tag="div">
-          <button class="button is-primary" @click="signOut()">
-            Sign Out
-          </button>
+          <button class="button is-primary" @click="signOut()">Sign Out</button>
         </b-navbar-item>
         <b-navbar-item tag="div">
           <router-link :to="{ name: 'EventList' }">
@@ -16,23 +14,16 @@
           </router-link>
         </b-navbar-item>
         <b-navbar-item>
-          <router-link
-            :to="{ name: 'MemberList', params: { eventId: eventId } }"
-          >
+          <router-link :to="{ name: 'MemberList', params: { eventId: eventId } }">
             <button class="button is-primary">MemberList</button>
           </router-link>
         </b-navbar-item>
       </template>
     </b-navbar>
     <main-content>
-      <div class="event-detail-header">{{ eventDetail.name }}のページ</div>
+      <div class="event-detail-header">{{ eventDetail.name }}</div>
       <section>
-        <b-tabs
-          position="is-centered"
-          type="is-boxed"
-          v-model="selectedTabIndex"
-          expanded
-        >
+        <b-tabs position="is-centered" type="is-boxed" v-model="selectedTabIndex">
           <b-tab-item label="請求書"></b-tab-item>
           <b-tab-item label="結果"></b-tab-item>
         </b-tabs>
@@ -44,6 +35,9 @@
         <t-result-list :resultList="resultList"></t-result-list>
       </div>
     </main-content>
+    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false">
+      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+    </b-loading>
   </app-base>
 </template>
 
@@ -63,11 +57,14 @@ import MainContent from "@/components/common/MainContent";
     TBillList,
     TResultList,
     AppBase,
-    MainContent,
-  },
+    MainContent
+  }
 })
 export default class TEventDetailPage extends Vue {
   // 1.@Prop
+  @Prop({ default: false })
+  isLoading!: boolean;
+
   @Prop({ default: "" })
   eventId!: string;
 

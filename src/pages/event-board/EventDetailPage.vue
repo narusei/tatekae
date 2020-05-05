@@ -1,6 +1,7 @@
 <template>
   <div>
     <t-event-detail-page
+      :isLoading="loading"
       :eventId="eventId"
       :eventDetail="eventDetail"
       :billList="billList"
@@ -17,8 +18,8 @@ import TEventDetailPage from "@/components/event-board/TEventDetailPage";
 
 @Component({
   components: {
-    TEventDetailPage,
-  },
+    TEventDetailPage
+  }
 })
 export default class EventDetailPage extends Vue {
   private eventBoardStore = getModule(EventBoardStore, this.$store);
@@ -26,6 +27,7 @@ export default class EventDetailPage extends Vue {
   @Prop({ default: "" })
   eventId!: string;
   // 2.property
+  loading?: boolean = false;
   // 3.getter
   get eventDetail() {
     return this.eventBoardStore.eventDetail;
@@ -46,12 +48,15 @@ export default class EventDetailPage extends Vue {
   // 5.method
   async created() {
     try {
+      this.loading = true;
       await this.eventBoardStore.getEventDetail(this.eventId);
       await this.eventBoardStore.getBillList(this.eventId);
       await this.eventBoardStore.getMemberList(this.eventId);
       await this.eventBoardStore.getResultList();
     } catch {
       alert("faild created");
+    } finally {
+      this.loading = false;
     }
   }
 

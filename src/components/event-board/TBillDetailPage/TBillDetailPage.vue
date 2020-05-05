@@ -6,14 +6,10 @@
       </template>
       <template slot="end">
         <b-navbar-item tag="div">
-          <button class="button is-primary" @click="signOut()">
-            Sign Out
-          </button>
+          <button class="button is-primary" @click="signOut()">Sign Out</button>
         </b-navbar-item>
         <b-navbar-item tag="div">
-          <router-link
-            :to="{ name: 'EventDetail', params: { eventId: eventId } }"
-          >
+          <router-link :to="{ name: 'EventDetail', params: { eventId: eventId } }">
             <button class="button is-primary">BackDetailPage</button>
           </router-link>
         </b-navbar-item>
@@ -22,26 +18,19 @@
     <main-content>
       <div class="bill-detail-header">請求書詳細</div>
       <div class="bill-detail-content">
-        <div class="bill-detail-title">
-          Tatekae Bill
-        </div>
-        <b-button
-          class="bill-detail-delete"
-          icon-right="delete"
-          @click="onDeleteBill()"
-        ></b-button>
+        <div class="bill-detail-title">Tatekae Bill</div>
+        <b-button class="bill-detail-delete" icon-right="delete" @click="onDeleteBill()"></b-button>
         <div class="bill-detail-payer">請求先: {{ billDetail.payer }}</div>
         <div class="bill-detail-item">
-          <div>
-            {{ billDetail.name }}
-          </div>
+          <div>{{ billDetail.name }}</div>
           <div>{{ billDetail.money }}円</div>
         </div>
-        <div class="bill-detail-billing">
-          請求者: {{ billDetail.billingPerson }}
-        </div>
+        <div class="bill-detail-billing">請求者: {{ billDetail.billingPerson }}</div>
       </div>
     </main-content>
+    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false">
+      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+    </b-loading>
   </app-base>
 </template>
 
@@ -54,11 +43,14 @@ import MainContent from "@/components/common/MainContent";
 @Component({
   components: {
     AppBase,
-    MainContent,
-  },
+    MainContent
+  }
 })
 export default class TBillDetailPage extends Vue {
   // 1.@Prop
+  @Prop({ default: false })
+  isLoading!: boolean;
+
   @Prop({ default: "" })
   eventId!: string;
 
@@ -77,7 +69,7 @@ export default class TBillDetailPage extends Vue {
       hasIcon: true,
       onConfirm: () => {
         this.$emit("deleteBill");
-      },
+      }
     });
   }
 }
@@ -114,7 +106,7 @@ export default class TBillDetailPage extends Vue {
 
 .bill-detail-payer {
   grid-row: 2/3;
-  grid-column: 2/3;
+  grid-column: 1/4;
   justify-self: center;
   align-self: center;
 }

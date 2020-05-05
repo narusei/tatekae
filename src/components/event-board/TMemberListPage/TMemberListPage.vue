@@ -1,51 +1,57 @@
 <template>
-  <div>
-    <app-base>
-      <b-navbar>
-        <template slot="brand">
-          <b-navbar-item>Tatekae</b-navbar-item>
-        </template>
-        <template slot="end">
-          <b-navbar-item tag="div">
-            <button class="button is-primary" @click="signOut()">
-              Sign Out
-            </button>
-          </b-navbar-item>
-          <b-navbar-item tag="div">
-            <router-link
-              :to="{ name: 'EventDetail', params: { eventId: eventId } }"
-            >
-              <button class="button is-primary">BackEventDetail</button>
-            </router-link>
-          </b-navbar-item>
-          <b-navbar-item>
-            <router-link
-              :to="{ name: 'MemberList', params: { eventId: eventId } }"
-            >
-              <button class="button is-primary">MemberList</button>
-            </router-link>
-          </b-navbar-item>
-        </template>
-      </b-navbar>
-      <main-content>
-        <div class="member-list-header">メンバー一覧</div>
-        <div v-for="member in memberList" :key="member.id">
-          <div class="member-list-item">
-            <div class="member-list-item-name">{{ member.name }}</div>
-            <b-button
-              class="member-list-item-delete"
-              icon-right="delete"
-              @click="onDeleteMember(member.id)"
-            ></b-button>
-          </div>
+  <app-base>
+    <b-navbar>
+      <template slot="brand">
+        <b-navbar-item>Tatekae</b-navbar-item>
+      </template>
+      <template slot="end">
+        <b-navbar-item tag="div">
+          <button class="button is-primary" @click="signOut()">
+            Sign Out
+          </button>
+        </b-navbar-item>
+        <b-navbar-item tag="div">
+          <router-link
+            :to="{ name: 'EventDetail', params: { eventId: eventId } }"
+          >
+            <button class="button is-primary">BackEventDetail</button>
+          </router-link>
+        </b-navbar-item>
+        <b-navbar-item>
+          <router-link
+            :to="{ name: 'MemberList', params: { eventId: eventId } }"
+          >
+            <button class="button is-primary">MemberList</button>
+          </router-link>
+        </b-navbar-item>
+      </template>
+    </b-navbar>
+    <main-content>
+      <div class="member-list-header">メンバー一覧</div>
+      <div v-for="member in memberList" :key="member.id">
+        <div class="member-list-item">
+          <div class="member-list-item-name">{{ member.name }}</div>
+          <b-button
+            class="member-list-item-delete"
+            icon-right="delete"
+            @click="onDeleteMember(member.id)"
+          ></b-button>
         </div>
-        <floating-button
-          :iconType="'plus'"
-          @click="onOpenAddMemberDialog()"
-        ></floating-button>
-      </main-content>
-    </app-base>
-  </div>
+      </div>
+      <floating-button
+        :iconType="'plus'"
+        @click="onOpenAddMemberDialog()"
+      ></floating-button>
+    </main-content>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    >
+      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin">
+      </b-icon>
+    </b-loading>
+  </app-base>
 </template>
 
 <script lang="ts">
@@ -65,6 +71,9 @@ import FloatingButton from "@/components/common/FloatingButton";
 })
 export default class TMemberListPage extends Vue {
   // 1.@Prop
+  @Prop({ default: false })
+  isLoading!: boolean;
+
   @Prop({ default: "" })
   eventId!: string;
 
