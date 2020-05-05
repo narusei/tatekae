@@ -6,5 +6,23 @@ export default {
 
 export const Default = () => ({
   components: { TAddBillPage },
-  template: `<t-add-bill-page></t-add-bill-page>`,
+  props: {
+    memberList: {
+      default: [
+        {
+          id: "0",
+          name: "taro",
+        },
+        {
+          id: "1",
+          name: "ziro",
+        },
+        {
+          id: "2",
+          name: "saburo",
+        },
+      ],
+    },
+  },
+  template: `<t-add-bill-page :memberList="memberList"></t-add-bill-page>`,
 });
