@@ -1,27 +1,21 @@
 <template>
-  <div>
-    <app-base>
-      <main-content>
-        <div v-for="(result, index) in resultList" :key="index">
-          <div class="result-list-item">
-            {{ result.from.name }} は {{ result.to.name }} へ
-            {{ result.payment }} 円払う
-          </div>
-        </div>
-      </main-content>
-    </app-base>
-  </div>
+  <main-content>
+    <div v-for="(result, index) in resultList" :key="index">
+      <div class="result-list-item">
+        {{ result.from.name }} は {{ result.to.name }} へ
+        {{ result.payment }} 円払う
+      </div>
+    </div>
+  </main-content>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ResultItem } from "@/models/ResultItem";
-import AppBase from "@/components/common/AppBase";
 import MainContent from "@/components/common/MainContent";
 
 @Component({
   components: {
-    AppBase,
     MainContent,
   },
 })

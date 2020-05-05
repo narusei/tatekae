@@ -1,41 +1,37 @@
 <template>
-  <app-base>
-    <main-content>
-      <div v-for="bill in billList" :key="bill.id">
-        <router-link
-          :to="{
-            name: 'BillDetail',
-            params: { eventId: eventId, billId: bill.id },
-          }"
-        >
-          <div class="bill-list-item">
-            <div class="bill-list-item-name">
-              {{ bill.name }}
-            </div>
-            <div class="bill-list-item-sub-info">
-              請求者: {{ bill.billingPerson }}
-            </div>
+  <main-content>
+    <div v-for="bill in billList" :key="bill.id">
+      <router-link
+        :to="{
+          name: 'BillDetail',
+          params: { eventId: eventId, billId: bill.id },
+        }"
+      >
+        <div class="bill-list-item">
+          <div class="bill-list-item-name">
+            {{ bill.name }}
           </div>
-        </router-link>
-      </div>
-      <floating-button
-        :iconType="'plus'"
-        @click="toAddBillPage()"
-      ></floating-button>
-    </main-content>
-  </app-base>
+          <div class="bill-list-item-sub-info">
+            請求者: {{ bill.billingPerson }}
+          </div>
+        </div>
+      </router-link>
+    </div>
+    <floating-button
+      :iconType="'plus'"
+      @click="toAddBillPage()"
+    ></floating-button>
+  </main-content>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { BillItem } from "@/models/BillItem";
-import AppBase from "@/components/common/AppBase";
 import MainContent from "@/components/common/MainContent";
 import FloatingButton from "@/components/common/FloatingButton";
 
 @Component({
   components: {
-    AppBase,
     MainContent,
     FloatingButton,
   },
