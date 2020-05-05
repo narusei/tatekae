@@ -1,37 +1,67 @@
 <template>
   <div>
-    <p>TMemberListPage</p>
-    <div>
-      <router-link :to="{ name: 'EventDetail', params: { eventId: eventId } }">
-        <button class="button is-primary">BackDetailPage</button>
-      </router-link>
-    </div>
-    <b-field label="memberName">
-      <b-input maxlength="20" type="textarea" v-model="memberName"></b-input>
-    </b-field>
-    <b-field>
-      <p class="control">
-        <button class="button is-primary" @click="onAddMember()">
-          AddMember
-        </button>
-      </p>
-    </b-field>
-    <div>test: {{ memberList }}</div>
-    <div v-for="member in memberList" :key="member.id">
-      <div>{{ member.name }}</div>
-      <button class="button is-danger" @click="onDeleteMember(member.id)">
-        削除
-      </button>
-    </div>
+    <app-base>
+      <b-navbar>
+        <template slot="brand">
+          <b-navbar-item>Tatekae</b-navbar-item>
+        </template>
+        <template slot="end">
+          <b-navbar-item tag="div">
+            <button class="button is-primary" @click="signOut()">
+              Sign Out
+            </button>
+          </b-navbar-item>
+          <b-navbar-item tag="div">
+            <router-link
+              :to="{ name: 'EventDetail', params: { eventId: eventId } }"
+            >
+              <button class="button is-primary">BackEventDetail</button>
+            </router-link>
+          </b-navbar-item>
+          <b-navbar-item>
+            <router-link
+              :to="{ name: 'MemberList', params: { eventId: eventId } }"
+            >
+              <button class="button is-primary">MemberList</button>
+            </router-link>
+          </b-navbar-item>
+        </template>
+      </b-navbar>
+      <main-content>
+        <div class="member-list-header">メンバー一覧</div>
+        <div v-for="member in memberList" :key="member.id">
+          <div class="member-list-item">
+            <div class="member-list-item-name">{{ member.name }}</div>
+            <b-button
+              class="member-list-item-delete"
+              icon-right="delete"
+              @click="onDeleteMember(member.id)"
+            ></b-button>
+          </div>
+        </div>
+        <floating-button
+          :iconType="'plus'"
+          @click="onOpenAddMemberDialog()"
+        ></floating-button>
+      </main-content>
+    </app-base>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import authApi from "@/api/auth";
 import { MemberItem } from "@/models/MemberItem";
+import AppBase from "@/components/common/AppBase";
+import MainContent from "@/components/common/MainContent";
+import FloatingButton from "@/components/common/FloatingButton";
 
 @Component({
-  components: {},
+  components: {
+    AppBase,
+    MainContent,
+    FloatingButton,
+  },
 })
 export default class TMemberListPage extends Vue {
   // 1.@Prop
@@ -41,13 +71,35 @@ export default class TMemberListPage extends Vue {
   @Prop({ default: () => [] })
   memberList!: MemberItem[];
   // 2.property
-  memberName?: string = "";
   // 3.getter
   // 4.@Watch
   // 5.method
-  onAddMember() {
+  async signOut() {
+    try {
+      await authApi.signOut();
+      this.$router.push("/signin");
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  onOpenAddMemberDialog() {
+    this.$buefy.dialog.prompt({
+      message: "メンバーの名前を入力してください",
+      inputAttrs: {
+        placeholder: "メンバーの名前",
+        maxlength: 15,
+      },
+      trapFocus: true,
+      onConfirm: (value) => {
+        this.onAddMember(value);
+      },
+    });
+  }
+
+  onAddMember(value: string) {
     this.$emit("addMember", {
-      name: this.memberName,
+      name: value,
     });
   }
 
@@ -67,4 +119,25 @@ export default class TMemberListPage extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.member-list-header {
+  padding: 0 0 8px 8px;
+}
+
+.member-list-item {
+  display: flex;
+  align-items: center;
+  border: solid 1px;
+  border-radius: 5px;
+  margin: 8px 16px;
+  padding: 8px 16px;
+}
+
+.member-list-item-name {
+  margin-right: auto;
+}
+
+.member-list-item-delete {
+  border: none;
+}
+</style>
