@@ -22,6 +22,5 @@ yarn-error.log*
 *.sln
 *.sw?
 
-.firebaserc
-firebase.json
 .firebase
+.env.development
