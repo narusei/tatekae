@@ -11,6 +11,7 @@
     "storybook:start": "vue-cli-service storybook:serve -p 6006 -c config/storybook"
   },
   "dependencies": {
+    "@types/firebase": "^3.2.1",
     "axios": "^0.19.2",
     "buefy": "^0.8.15",
     "core-js": "^3.6.4",
@@ -29,6 +30,7 @@
     "@storybook/addon-knobs": ">=5.3.0",
     "@storybook/addon-links": ">=5.3.0",
     "@storybook/addon-notes": ">=5.3.0",
+    "@storybook/addon-viewport": "^5.3.18",
     "@storybook/vue": ">=5.3.0",
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^2.18.0",

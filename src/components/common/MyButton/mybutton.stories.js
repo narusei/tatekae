@@ -1,8 +1,10 @@
-import { storiesOf } from "@storybook/vue";
-
 import MyButton from "./MyButton.vue";
 
-storiesOf("Common/MyButton", module).add("Default", () => ({
+export default {
+  title: "common/MyButton",
+};
+
+export const Default = () => ({
   components: { MyButton },
   template: `<MyButton msg="Welcome to Your Vue.js + TypeScript + Storybook App"/>`,
-}));
+});
