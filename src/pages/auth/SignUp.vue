@@ -9,8 +9,8 @@ import SignUpPage from "@/components/auth/SignUpPage";
 
 @Component({
   components: {
-    SignUpPage,
-  },
+    SignUpPage
+  }
 })
 export default class SignUp extends Vue {
   // 1.@Prop
@@ -20,7 +20,7 @@ export default class SignUp extends Vue {
   // 5.method
   async signUp(form: { email: string; password: string; name: string }) {
     try {
-      const result = await authApi.signInWithEmailAndPassword(
+      const result = await authApi.signUpWithEmailAndPassword(
         form.email,
         form.password
       );
