@@ -38,9 +38,9 @@
     <div class="bill-form-add-button">
       <b-field>
         <p class="control">
-          <button class="button is-primary" @click="onEmitBillData()">
+          <b-button class="is-mainColor is-inverted" @click="onEmitBillData()">
             {{ billFormText }}
-          </button>
+          </b-button>
         </p>
       </b-field>
     </div>
@@ -54,8 +54,8 @@ import MainContent from "@/components/common/MainContent";
 
 @Component({
   components: {
-    MainContent,
-  },
+    MainContent
+  }
 })
 export default class TBillForm extends Vue {
   // 1.@Prop
@@ -74,7 +74,7 @@ export default class TBillForm extends Vue {
     const payerData: MemberItem[] = this.memberList.concat();
     payerData.push({
       id: "all",
-      name: "ALL",
+      name: "ALL"
     });
     return payerData;
   }
@@ -85,7 +85,7 @@ export default class TBillForm extends Vue {
       name: this.name,
       billingPerson: this.billingPerson,
       payer: this.payer,
-      money: this.money,
+      money: this.money
     });
   }
 }
@@ -93,7 +93,7 @@ export default class TBillForm extends Vue {
 
 <style lang="scss" scoped>
 .bill-form-name {
-  padding: 0 16px 16px;
+  padding: 16px;
 }
 
 .bill-form-member {
