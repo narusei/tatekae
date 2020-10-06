@@ -1,42 +1,58 @@
 <template>
   <app-base>
-    <b-navbar>
+    <b-navbar class="is-mainColor">
       <template slot="brand">
-        <b-navbar-item>Tatekae</b-navbar-item>
-      </template>
-      <template slot="end">
-        <b-navbar-item tag="div">
-          <button class="button is-primary" @click="signOut()">Sign Out</button>
-        </b-navbar-item>
-        <b-navbar-item tag="div">
+        <b-navbar-item tag="a">
           <router-link :to="{ name: 'EventList' }">
-            <button class="button is-primary">BackEventList</button>
+            <b-icon icon="chevron-left"></b-icon>
           </router-link>
         </b-navbar-item>
-        <b-navbar-item>
-          <router-link :to="{ name: 'MemberList', params: { eventId: eventId } }">
-            <button class="button is-primary">MemberList</button>
+        <b-navbar-item tag="div">イベント詳細</b-navbar-item>
+      </template>
+      <template slot="end">
+        <b-navbar-item tag="a" @click="signOut()">
+          Sign Out
+        </b-navbar-item>
+        <b-navbar-item tag="a">
+          <router-link
+            :to="{ name: 'MemberList', params: { eventId: eventId } }"
+            style="color: #2c3e50;"
+          >
+            MemberList
           </router-link>
         </b-navbar-item>
       </template>
     </b-navbar>
     <main-content>
-      <div class="event-detail-header">{{ eventDetail.name }}</div>
-      <section>
-        <b-tabs position="is-centered" type="is-boxed" v-model="selectedTabIndex">
-          <b-tab-item label="請求書"></b-tab-item>
-          <b-tab-item label="結果"></b-tab-item>
+      <div class="event-detail-header">
+        <div class="event-detail-header-title">
+          {{ eventDetail.name }}
+        </div>
+        <div class="event-detail-header-menu">
+          <router-link
+            :to="{ name: 'MemberList', params: { eventId: eventId } }"
+            style="color: #2c3e50;"
+          >
+            <b-icon icon="account-plus"></b-icon>
+          </router-link>
+        </div>
+      </div>
+      <section class="event-detail-tabs">
+        <b-tabs position="is-centered" v-model="selectedTabIndex" expanded>
+          <b-tab-item label="請求書">
+            <t-bill-list :eventId="eventId" :billList="billList"></t-bill-list>
+          </b-tab-item>
+          <b-tab-item label="結果">
+            <t-result-list :resultList="resultList"></t-result-list>
+          </b-tab-item>
         </b-tabs>
       </section>
-      <div v-if="selectedTabIndex === 0">
-        <t-bill-list :eventId="eventId" :billList="billList"></t-bill-list>
-      </div>
-      <div v-else>
-        <t-result-list :resultList="resultList"></t-result-list>
-      </div>
     </main-content>
-    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false">
-      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    >
     </b-loading>
   </app-base>
 </template>
@@ -94,6 +110,18 @@ export default class TEventDetailPage extends Vue {
 
 <style lang="scss" scoped>
 .event-detail-header {
-  padding: 0 0 8px 8px;
+  display: flex;
+  font-size: 16px;
+  padding-top: 16px;
+  padding-left: 16px;
+}
+
+.event-detail-header-menu {
+  margin-left: auto;
+  margin-right: 14px;
+}
+
+.event-detail-tabs {
+  padding-top: 8px;
 }
 </style>
