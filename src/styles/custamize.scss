@@ -4,6 +4,8 @@
 // Set your colors
 $mainColor: #f2c94c;
 $mainColor-invert: findColorInvert($mainColor);
+$darkMain: #cb9800;
+$darkMain-invert: findColorInvert($darkMain);
 $primary: #8c67ef;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099ff;
@@ -55,12 +57,16 @@ $colors: (
     $mainColor,
     $mainColor-invert,
   ),
+  "darkMain": (
+    $darkMain,
+    $darkMain-invert,
+  ),
 );
 
 // Links
-$link: $primary;
-$link-invert: $primary-invert;
-$link-focus-border: $primary;
+$link: $darkMain;
+$link-invert: $darkMain-invert;
+$link-focus-border: $darkMain;
 
 // Import Bulma and Buefy styles
 @import "~bulma";
