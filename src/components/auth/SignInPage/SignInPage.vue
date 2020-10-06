@@ -1,18 +1,18 @@
 <template>
   <app-base>
-    <b-navbar>
+    <b-navbar class="is-mainColor">
       <template slot="brand">
         <b-navbar-item>Tatekae</b-navbar-item>
       </template>
       <template slot="end">
-        <b-navbar-item tag="div">
+        <b-navbar-item tag="a">
           <router-link :to="{ name: 'SignUp' }">
-            <b-button class="button is-primary">SignUp</b-button>
+            SignUp
           </router-link>
         </b-navbar-item>
-        <b-navbar-item tag="div">
+        <b-navbar-item tag="a">
           <router-link :to="{ name: 'SignIn' }">
-            <b-button class="button is-primary" outlined>SignIn</b-button>
+            SignIn
           </router-link>
         </b-navbar-item>
       </template>
@@ -20,28 +20,36 @@
     <main-content>
       <div class="sign-in">
         <div class="sign-in-header">Sign In</div>
-        <b-field class="sign-in-input">
-          <b-input
-            placeholder="Email"
-            type="email"
-            v-model="form.email"
-          ></b-input>
-        </b-field>
-        <b-field class="sign-in-input">
-          <b-input
-            type="password"
-            placeholder="Password"
-            password-reveal
-            v-model="form.password"
-          ></b-input>
-        </b-field>
-        <b-field>
-          <p class="control">
-            <button class="button is-primary" @click="signIn()">
-              Sign In
-            </button>
-          </p>
-        </b-field>
+        <div class="sign-in-inputs">
+          <b-field>
+            <b-input
+              placeholder="Email"
+              type="email"
+              v-model="form.email"
+            ></b-input>
+          </b-field>
+          <b-field>
+            <b-input
+              type="password"
+              placeholder="Password"
+              password-reveal
+              v-model="form.password"
+            ></b-input>
+          </b-field>
+        </div>
+        <div class="sign-in-button">
+          <b-field>
+            <p class="control">
+              <b-button
+                tag="router-link"
+                to="/signin"
+                class="is-mainColor is-inverted"
+                @click="signIn()"
+                >Sign In</b-button
+              >
+            </p>
+          </b-field>
+        </div>
         <div class="sign-in-info">
           <div>
             You don't have an account?
@@ -80,25 +88,29 @@ export default class SignInPage extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.sign-in-header {
-  font-size: 24px;
-  padding-bottom: 16px;
-}
-
 .sign-in {
   min-height: calc(100vh - 52px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-bottom: 40px;
 }
 
-.sign-in-input {
-  width: 70%;
+.sign-in-header {
+  font-size: 36px;
+  padding-top: 40%;
+}
+
+.sign-in-inputs {
+  padding-top: 5%;
+}
+
+.sign-in-button {
+  padding-top: 5%;
 }
 
 .sign-in-info {
+  flex-grow: 1;
+  padding-top: 5%;
   text-align: center;
 }
 </style>
