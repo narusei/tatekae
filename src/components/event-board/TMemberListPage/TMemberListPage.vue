@@ -1,41 +1,34 @@
 <template>
   <app-base>
-    <b-navbar>
+    <b-navbar class="is-mainColor">
       <template slot="brand">
-        <b-navbar-item>Tatekae</b-navbar-item>
-      </template>
-      <template slot="end">
-        <b-navbar-item tag="div">
-          <button class="button is-primary" @click="signOut()">
-            Sign Out
-          </button>
-        </b-navbar-item>
-        <b-navbar-item tag="div">
+        <b-navbar-item tag="a">
           <router-link
             :to="{ name: 'EventDetail', params: { eventId: eventId } }"
           >
-            <button class="button is-primary">BackEventDetail</button>
+            <b-icon icon="chevron-left"></b-icon>
           </router-link>
         </b-navbar-item>
-        <b-navbar-item>
-          <router-link
-            :to="{ name: 'MemberList', params: { eventId: eventId } }"
-          >
-            <button class="button is-primary">MemberList</button>
-          </router-link>
+        <b-navbar-item tag="id">メンバーリスト</b-navbar-item>
+      </template>
+      <template slot="end">
+        <b-navbar-item tag="a" @click="signOut()">
+          Sign Out
         </b-navbar-item>
       </template>
     </b-navbar>
     <main-content>
       <div class="member-list-header">メンバー一覧</div>
-      <div v-for="member in memberList" :key="member.id">
-        <div class="member-list-item">
-          <div class="member-list-item-name">{{ member.name }}</div>
-          <b-button
-            class="member-list-item-delete"
-            icon-right="delete"
-            @click="onDeleteMember(member.id)"
-          ></b-button>
+      <div class="member-list">
+        <div v-for="member in memberList" :key="member.id">
+          <div class="member-list-item">
+            <div class="member-list-item-name">{{ member.name }}</div>
+            <b-button
+              class="member-list-item-delete"
+              icon-right="delete"
+              @click="onDeleteMember(member.id)"
+            ></b-button>
+          </div>
         </div>
       </div>
       <floating-button
@@ -48,8 +41,6 @@
       :active.sync="isLoading"
       :can-cancel="false"
     >
-      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin">
-      </b-icon>
     </b-loading>
   </app-base>
 </template>
@@ -66,8 +57,8 @@ import FloatingButton from "@/components/common/FloatingButton";
   components: {
     AppBase,
     MainContent,
-    FloatingButton,
-  },
+    FloatingButton
+  }
 })
 export default class TMemberListPage extends Vue {
   // 1.@Prop
@@ -97,18 +88,18 @@ export default class TMemberListPage extends Vue {
       message: "メンバーの名前を入力してください",
       inputAttrs: {
         placeholder: "メンバーの名前",
-        maxlength: 15,
+        maxlength: 15
       },
       trapFocus: true,
-      onConfirm: (value) => {
+      onConfirm: value => {
         this.onAddMember(value);
-      },
+      }
     });
   }
 
   onAddMember(value: string) {
     this.$emit("addMember", {
-      name: value,
+      name: value
     });
   }
 
@@ -122,7 +113,7 @@ export default class TMemberListPage extends Vue {
       hasIcon: true,
       onConfirm: () => {
         this.$emit("deleteMember", memberId);
-      },
+      }
     });
   }
 }
@@ -130,7 +121,12 @@ export default class TMemberListPage extends Vue {
 
 <style lang="scss" scoped>
 .member-list-header {
-  padding: 0 0 8px 8px;
+  padding-top: 16px;
+  padding-left: 16px;
+}
+
+.member-list {
+  padding-top: 8px;
 }
 
 .member-list-item {

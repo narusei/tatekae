@@ -4,8 +4,9 @@
       <router-link
         :to="{
           name: 'BillDetail',
-          params: { eventId: eventId, billId: bill.id },
+          params: { eventId: eventId, billId: bill.id }
         }"
+        style="color: #2c3e50;"
       >
         <div class="bill-list-item">
           <div class="bill-list-item-name">
@@ -33,8 +34,8 @@ import FloatingButton from "@/components/common/FloatingButton";
 @Component({
   components: {
     MainContent,
-    FloatingButton,
-  },
+    FloatingButton
+  }
 })
 export default class TBillList extends Vue {
   // 1.@Prop
@@ -50,7 +51,7 @@ export default class TBillList extends Vue {
   toAddBillPage() {
     this.$router.push({
       name: "AddBill",
-      params: { eventId: this.eventId },
+      params: { eventId: this.eventId }
     });
   }
 }
@@ -62,7 +63,7 @@ export default class TBillList extends Vue {
   justify-content: center;
   align-items: center;
   border: solid 1px;
-  margin: 8px 16px;
+  margin: 8px 0;
   padding: 16px;
   border-radius: 5px;
 }

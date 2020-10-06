@@ -1,36 +1,33 @@
 <template>
   <app-base>
-    <b-navbar>
+    <b-navbar class="is-mainColor">
       <template slot="brand">
-        <b-navbar-item>Tatekae</b-navbar-item>
+        <b-navbar-item tag="div">Tatekae</b-navbar-item>
       </template>
       <template slot="end">
-        <b-navbar-item tag="div">
-          <button class="button is-primary" @click="signOut()">
-            Sign Out
-          </button>
+        <b-navbar-item tag="a" @click="signOut()">
+          Sign Out
         </b-navbar-item>
       </template>
     </b-navbar>
     <main-content>
-      <div class="event-list-header">
-        イベント一覧
-      </div>
-      <div v-for="event in eventList" :key="event.id">
-        <div class="event-list-item">
-          <div class="event-list-item-menu">
-            <b-icon
-              icon="delete"
-              @click.native="onDeleteEvent(event.id)"
-            ></b-icon>
-          </div>
-          <router-link
-            :to="{ name: 'EventDetail', params: { eventId: event.id } }"
-          >
-            <div class="event-list-item-title">
-              {{ event.name }}
+      <div class="event-list">
+        <div v-for="event in eventList" :key="event.id">
+          <div class="event-list-item">
+            <div class="event-list-item-menu">
+              <b-icon
+                icon="delete"
+                @click.native="onDeleteEvent(event.id)"
+              ></b-icon>
             </div>
-          </router-link>
+            <router-link
+              :to="{ name: 'EventDetail', params: { eventId: event.id } }"
+            >
+              <div class="event-list-item-title">
+                {{ event.name }}
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
     </main-content>
@@ -43,8 +40,6 @@
       :active.sync="isLoading"
       :can-cancel="false"
     >
-      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin">
-      </b-icon>
     </b-loading>
   </app-base>
 </template>
@@ -61,8 +56,8 @@ import FloatingButton from "@/components/common/FloatingButton";
   components: {
     AppBase,
     MainContent,
-    FloatingButton,
-  },
+    FloatingButton
+  }
 })
 export default class TEventListPage extends Vue {
   // 1.@Prop
@@ -89,18 +84,18 @@ export default class TEventListPage extends Vue {
       message: "イベント名を入力してください",
       inputAttrs: {
         placeholder: "イベント名",
-        maxlength: 15,
+        maxlength: 15
       },
       trapFocus: true,
-      onConfirm: (value) => {
+      onConfirm: value => {
         this.onAddEvent(value);
-      },
+      }
     });
   }
 
   onAddEvent(value: string) {
     this.$emit("addEvent", {
-      name: value,
+      name: value
     });
   }
 
@@ -113,15 +108,15 @@ export default class TEventListPage extends Vue {
       hasIcon: true,
       onConfirm: () => {
         this.$emit("deleteEvent", eventId);
-      },
+      }
     });
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.event-list-header {
-  padding-left: 8px;
+.event-list {
+  padding-top: 8px;
 }
 
 .event-list-item {
