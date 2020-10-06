@@ -20,22 +20,22 @@
     <main-content>
       <div class="sign-up">
         <div class="sign-up-header">Sign Up</div>
-        <div class="sign-up-inputs">
-          <b-field>
+        <section>
+          <b-field class="sign-up-input">
             <b-input
               type="Name"
               placeholder="UserName"
               v-model="form.name"
             ></b-input>
           </b-field>
-          <b-field>
+          <b-field class="sign-up-input">
             <b-input
               placeholder="Email"
               type="email"
               v-model="form.email"
             ></b-input>
           </b-field>
-          <b-field>
+          <b-field class="sign-up-input">
             <b-input
               type="password"
               placeholder="Password"
@@ -43,20 +43,14 @@
               v-model="form.password"
             ></b-input>
           </b-field>
-        </div>
-        <div class="sign-up-button">
-          <b-field>
+          <b-field class="sign-up-button">
             <p class="control">
-              <b-button
-                tag="router-link"
-                to="/signin"
-                class="is-mainColor is-inverted"
-                @click="signUp()"
-                >Sign In</b-button
+              <b-button class="is-mainColor is-inverted" @click="signUp()"
+                >Sign Up</b-button
               >
             </p>
           </b-field>
-        </div>
+        </section>
         <div class="sign-up-info">
           <div>Do you have an account?</div>
           <div>
@@ -106,14 +100,17 @@ export default class SignUpPage extends Vue {
 
 .sign-up-header {
   font-size: 36px;
-  padding-top: 40%;
+  padding-top: 35%;
 }
 
-.sign-up-inputs {
+.sign-up-input {
   padding-top: 5%;
 }
 
 .sign-up-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding-top: 5%;
 }
 
