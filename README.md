@@ -1,35 +1,46 @@
-# tatekae
+# [Tatekae](https://tatekae-9956a.web.app/)
 
-## Project setup
+## Tatekae とは
 
-```
-yarn install
-```
+Tatekae は”グループでの旅行”などのイベントなどで、メンバー間で起こる「立て替え」をメモするだけで、自動精算してくれる Web サービスです
 
-### Compiles and hot-reloads for development
+## 何故 Tatekae？
 
-```
-yarn start
-```
+Tatekae の Mission は"メンドくさい精算処理から解放する"ことです。
 
-### Compiles and minifies for production
+友人や家族との旅行やキャンプや BBQ などで、  
+ホテル代や夕飯の買い出しを誰かが一括で払ったり、  
+小腹が空いたからアイス買ってきてと頼まれたりすることはありませんか？
 
-```
-yarn build
-```
+イベントにはどうしてもお金の精算がつきものですが、  
+イベントの最中にメンドくさいお金の精算処理に気を取られて、  
+心から楽しめないのは勿体無い！
 
-### Run your unit tests
+そんな問題を解決するために開発したプロダクトです。
 
-```
-yarn test:unit
-```
+## 使い方
 
-### Lints and fixes files
+Tatekae の使い方はとてもシンプルです
 
-```
-yarn lint
-```
+1. あなたが Tatekae を利用したいイベントを新規作成します
+2. そのイベントに参加しているメンバーを追加します
+3. あとは生じた「立て替え」に対して請求書を新規作成すれば OK です
 
-### Customize configuration
+ここで作成された請求書の自動精算結果は
+イベント詳細ページの結果タブから確認することができます。
+誰にいくら払えばいいのかが表示されます。
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Tech
+
+Tatekae は以下の技術で構築されています
+
+- Vue.js
+- Firebase
+
+## 今後の展望
+
+今後は以下の機能を実装したいと考えています
+
+- パスワード・メアド認証以外の認証機能の実装
+- 各種データに対しての更新機能の実装
+- 簡易な OCR を用いたレシートからの文字起こし機能の実装
