@@ -3,8 +3,6 @@ name: Deploy Vue APP For Firebase Workflow
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
     
 jobs:
   build:
@@ -12,19 +10,38 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: setup Node
+        
+      - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
           registry-url: "https://registry.npmjs.org"
+     
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      
+      - name: Yarn Cache
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      
       - name: Install Dependencies
+        if: steps.yarn-cache.outputs.chach-hit != 'true'
         run: yarn
+      
       - name: Build
         env:
           VUE_APP_FIREBASE_API_KEY: ${{ secrets.VUE_APP_FIREBASE_API_KEY }}
         run: yarn build
+      
       - name: Setup Firebase CLI
         run: npm install -g firebase-tools
+      
       - name: Deploy Firebase
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
