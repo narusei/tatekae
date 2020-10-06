@@ -2,16 +2,16 @@
   <app-base>
     <b-navbar class="is-mainColor">
       <template slot="brand">
-        <b-navbar-item>Tatekae</b-navbar-item>
+        <b-navbar-item tag="div">Tatekae</b-navbar-item>
       </template>
       <template slot="end">
         <b-navbar-item tag="a">
-          <router-link :to="{ name: 'SignIn' }">
+          <router-link :to="{ name: 'SignIn' }" style="color: #2c3e50;">
             Sign In
           </router-link>
         </b-navbar-item>
         <b-navbar-item tag="a">
-          <router-link :to="{ name: 'SignUp' }">
+          <router-link :to="{ name: 'SignUp' }" style="color: #2c3e50;">
             Sign Up
           </router-link>
         </b-navbar-item>

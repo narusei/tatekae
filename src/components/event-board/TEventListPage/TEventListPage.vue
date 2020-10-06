@@ -2,7 +2,11 @@
   <app-base>
     <b-navbar class="is-mainColor">
       <template slot="brand">
-        <b-navbar-item tag="div">Tatekae</b-navbar-item>
+        <b-navbar-item tag="a">
+          <router-link :to="{ name: 'Landing' }" style="color: #2c3e50;">
+            Tatekae
+          </router-link>
+        </b-navbar-item>
       </template>
       <template slot="end">
         <b-navbar-item tag="a" @click="signOut()">
