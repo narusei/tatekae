@@ -20,15 +20,15 @@
     <main-content>
       <div class="sign-in">
         <div class="sign-in-header">Sign In</div>
-        <div class="sign-in-inputs">
-          <b-field>
+        <section>
+          <b-field class="sign-in-input">
             <b-input
               placeholder="Email"
               type="email"
               v-model="form.email"
             ></b-input>
           </b-field>
-          <b-field>
+          <b-field class="sign-in-input">
             <b-input
               type="password"
               placeholder="Password"
@@ -36,20 +36,14 @@
               v-model="form.password"
             ></b-input>
           </b-field>
-        </div>
-        <div class="sign-in-button">
-          <b-field>
+          <b-field class="sign-in-button">
             <p class="control">
-              <b-button
-                tag="router-link"
-                to="/signin"
-                class="is-mainColor is-inverted"
-                @click="signIn()"
+              <b-button class="is-mainColor is-inverted" @click="signIn()"
                 >Sign In</b-button
               >
             </p>
           </b-field>
-        </div>
+        </section>
         <div class="sign-in-info">
           <div>
             You don't have an account?
@@ -100,11 +94,14 @@ export default class SignInPage extends Vue {
   padding-top: 40%;
 }
 
-.sign-in-inputs {
+.sign-in-input {
   padding-top: 5%;
 }
 
 .sign-in-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding-top: 5%;
 }
 
