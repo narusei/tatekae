@@ -9,7 +9,7 @@
             <b-icon icon="chevron-left"></b-icon>
           </router-link>
         </b-navbar-item>
-        <b-navbar-item tag="id">メンバーリスト</b-navbar-item>
+        <b-navbar-item tag="div">メンバーリスト</b-navbar-item>
       </template>
       <template slot="end">
         <b-navbar-item tag="a" @click="signOut()">
