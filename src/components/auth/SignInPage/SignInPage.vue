@@ -6,12 +6,12 @@
       </template>
       <template slot="end">
         <b-navbar-item tag="div">
-          <router-link>
+          <router-link :to="{ name: 'SignUp' }">
             <b-button class="button is-primary">SignUp</b-button>
           </router-link>
         </b-navbar-item>
         <b-navbar-item tag="div">
-          <router-link>
+          <router-link :to="{ name: 'SignIn' }">
             <b-button class="button is-primary" outlined>SignIn</b-button>
           </router-link>
         </b-navbar-item>
@@ -63,8 +63,8 @@ import MainContent from "@/components/common/MainContent";
 @Component({
   components: {
     AppBase,
-    MainContent,
-  },
+    MainContent
+  }
 })
 export default class SignInPage extends Vue {
   // 1.@Prop
