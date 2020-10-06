@@ -8,13 +8,14 @@ import AddBillPage from "../pages/event-board/AddBillPage.vue";
 import MemberListPage from "../pages/event-board/MemberListPage.vue";
 import SignUp from "../pages/auth/SignUp.vue";
 import SignIn from "../pages/auth/SignIn.vue";
+import Landing from "../pages/Landing/Landing.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "*",
-    redirect: "signin",
+    redirect: "/landing",
   },
   {
     path: "/",
@@ -60,6 +61,11 @@ const routes = [
     name: "SignIn",
     component: SignIn,
   },
+  {
+    path: "/landing",
+    name: "Landing",
+    component: Landing,
+  },
 ];
 
 const router = new VueRouter({
@@ -73,12 +79,22 @@ router.beforeEach((to, from, next) => {
   if (requiresAuth) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
+        if (!localStorage.getItem("logged")) {
+          localStorage.setItem("logged", "true");
+        }
         next();
       } else {
-        next({
-          path: "/signin",
-          query: { redirect: to.fullPath },
-        });
+        if (localStorage.getItem("logged")) {
+          next({
+            path: "/signin",
+            query: { redirect: to.fullPath },
+          });
+        } else {
+          next({
+            path: "/landing",
+            query: { redirect: to.fullPath },
+          });
+        }
       }
     });
   } else {
