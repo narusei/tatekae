@@ -1,18 +1,18 @@
 <template>
   <app-base>
-    <b-navbar>
+    <b-navbar class="is-mainColor">
       <template slot="brand">
         <b-navbar-item>Tatekae</b-navbar-item>
       </template>
       <template slot="end">
-        <b-navbar-item tag="div">
-          <router-link>
-            <b-button class="button is-primary">SignUp</b-button>
+        <b-navbar-item tag="a">
+          <router-link :to="{ name: 'SignUp' }">
+            SignUp
           </router-link>
         </b-navbar-item>
-        <b-navbar-item tag="div">
-          <router-link>
-            <b-button class="button is-primary" outlined>SignIn</b-button>
+        <b-navbar-item tag="a">
+          <router-link :to="{ name: 'SignIn' }">
+            SignIn
           </router-link>
         </b-navbar-item>
       </template>
@@ -20,35 +20,43 @@
     <main-content>
       <div class="sign-up">
         <div class="sign-up-header">Sign Up</div>
-        <b-field class="sign-up-input">
-          <b-input
-            type="Name"
-            placeholder="UserName"
-            v-model="form.name"
-          ></b-input>
-        </b-field>
-        <b-field class="sign-up-input">
-          <b-input
-            placeholder="Email"
-            type="email"
-            v-model="form.email"
-          ></b-input>
-        </b-field>
-        <b-field class="sign-up-input">
-          <b-input
-            type="password"
-            placeholder="Password"
-            password-reveal
-            v-model="form.password"
-          ></b-input>
-        </b-field>
-        <b-field>
-          <p class="control">
-            <button class="button is-primary" @click="signUp()">
-              Sign Up
-            </button>
-          </p>
-        </b-field>
+        <div class="sign-up-inputs">
+          <b-field>
+            <b-input
+              type="Name"
+              placeholder="UserName"
+              v-model="form.name"
+            ></b-input>
+          </b-field>
+          <b-field>
+            <b-input
+              placeholder="Email"
+              type="email"
+              v-model="form.email"
+            ></b-input>
+          </b-field>
+          <b-field>
+            <b-input
+              type="password"
+              placeholder="Password"
+              password-reveal
+              v-model="form.password"
+            ></b-input>
+          </b-field>
+        </div>
+        <div class="sign-up-button">
+          <b-field>
+            <p class="control">
+              <b-button
+                tag="router-link"
+                to="/signin"
+                class="is-mainColor is-inverted"
+                @click="signUp()"
+                >Sign In</b-button
+              >
+            </p>
+          </b-field>
+        </div>
         <div class="sign-up-info">
           <div>Do you have an account?</div>
           <div>
@@ -68,8 +76,8 @@ import MainContent from "@/components/common/MainContent";
 @Component({
   components: {
     AppBase,
-    MainContent,
-  },
+    MainContent
+  }
 })
 export default class SignUpPage extends Vue {
   // 1.@Prop
@@ -77,7 +85,7 @@ export default class SignUpPage extends Vue {
   form: { email: string; password: string; name: string } = {
     email: "",
     password: "",
-    name: "",
+    name: ""
   };
   // 3.getter
   // 4.@Watch
@@ -89,25 +97,29 @@ export default class SignUpPage extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.sign-up-header {
-  font-size: 24px;
-  padding-bottom: 16px;
-}
-
 .sign-up {
   min-height: calc(100vh - 52px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-bottom: 40px;
 }
 
-.sign-up-input {
-  width: 70%;
+.sign-up-header {
+  font-size: 36px;
+  padding-top: 40%;
+}
+
+.sign-up-inputs {
+  padding-top: 5%;
+}
+
+.sign-up-button {
+  padding-top: 5%;
 }
 
 .sign-up-info {
+  flex-grow: 1;
+  padding-top: 5%;
   text-align: center;
 }
 </style>

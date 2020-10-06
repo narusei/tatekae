@@ -1,35 +1,46 @@
 <template>
   <app-base>
-    <b-navbar>
+    <b-navbar class="is-mainColor">
       <template slot="brand">
-        <b-navbar-item>Tatekae</b-navbar-item>
+        <b-navbar-item tag="a">
+          <router-link
+            :to="{ name: 'EventDetail', params: { eventId: eventId } }"
+          >
+            <b-icon icon="chevron-left"></b-icon>
+          </router-link>
+        </b-navbar-item>
+        <b-navbar-item tag="div">請求書詳細</b-navbar-item>
       </template>
       <template slot="end">
-        <b-navbar-item tag="div">
-          <button class="button is-primary" @click="signOut()">Sign Out</button>
-        </b-navbar-item>
-        <b-navbar-item tag="div">
-          <router-link :to="{ name: 'EventDetail', params: { eventId: eventId } }">
-            <button class="button is-primary">BackDetailPage</button>
-          </router-link>
+        <b-navbar-item tag="a" @click="signOut()">
+          Sign Out
         </b-navbar-item>
       </template>
     </b-navbar>
     <main-content>
-      <div class="bill-detail-header">請求書詳細</div>
+      <div class="bill-detail-header">{{ billDetail.name }}</div>
       <div class="bill-detail-content">
         <div class="bill-detail-title">Tatekae Bill</div>
-        <b-button class="bill-detail-delete" icon-right="delete" @click="onDeleteBill()"></b-button>
+        <b-button
+          class="bill-detail-delete"
+          icon-right="delete"
+          @click="onDeleteBill()"
+        ></b-button>
         <div class="bill-detail-payer">請求先: {{ billDetail.payer }}</div>
         <div class="bill-detail-item">
           <div>{{ billDetail.name }}</div>
           <div>{{ billDetail.money }}円</div>
         </div>
-        <div class="bill-detail-billing">請求者: {{ billDetail.billingPerson }}</div>
+        <div class="bill-detail-billing">
+          請求者: {{ billDetail.billingPerson }}
+        </div>
       </div>
     </main-content>
-    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false">
-      <b-icon pack="fas" icon="sync-alt" size="is-large" custom-class="fa-spin"></b-icon>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    >
     </b-loading>
   </app-base>
 </template>
@@ -77,7 +88,8 @@ export default class TBillDetailPage extends Vue {
 
 <style lang="scss" scoped>
 .bill-detail-header {
-  padding: 0 0 8px 8px;
+  padding-top: 16px;
+  padding-left: 16px;
 }
 
 .bill-detail-content {

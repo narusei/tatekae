@@ -1,21 +1,19 @@
 <template>
   <app-base>
-    <b-navbar>
+    <b-navbar class="is-mainColor">
       <template slot="brand">
-        <b-navbar-item>Tatekae</b-navbar-item>
-      </template>
-      <template slot="end">
-        <b-navbar-item tag="div">
-          <button class="button is-primary" @click="signOut()">
-            Sign Out
-          </button>
-        </b-navbar-item>
-        <b-navbar-item tag="div">
+        <b-navbar-item tag="a">
           <router-link
             :to="{ name: 'EventDetail', params: { eventId: eventId } }"
           >
-            <button class="button is-primary">BackEventDetail</button>
+            <b-icon icon="chevron-left"></b-icon>
           </router-link>
+        </b-navbar-item>
+        <b-navbar-item tag="div">請求書新規作成</b-navbar-item>
+      </template>
+      <template slot="end">
+        <b-navbar-item tag="a" @click="signOut()">
+          Sign Out
         </b-navbar-item>
       </template>
     </b-navbar>
@@ -42,8 +40,8 @@ import MainContent from "@/components/common/MainContent";
   components: {
     TBillForm,
     AppBase,
-    MainContent,
-  },
+    MainContent
+  }
 })
 export default class TAddBillPage extends Vue {
   // 1.@Prop
@@ -64,6 +62,7 @@ export default class TAddBillPage extends Vue {
 
 <style lang="scss" scoped>
 .add-bill-header {
-  padding: 0 0 8px 8px;
+  padding-top: 16px;
+  padding-left: 16px;
 }
 </style>
